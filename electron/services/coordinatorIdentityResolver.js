@@ -233,6 +233,32 @@ function pruneTeacherFromCanonicalMap(currentCanonicalMap, teacherId) {
     return nextMap;
 }
 
+/**
+ * Agrupa uma lista de turmas por suas respectivas disciplinas detectadas/definidas.
+ * @param {Array} rawTurmas Lista de objetos de turma ou strings de nomes de turma
+ * @param {string} defaultDiscipline Disciplina fallback
+ * @returns {Object} Mapa com disciplinas, contagem e nomes de turmas
+ */
+function groupTurmasByDiscipline(rawTurmas = [], defaultDiscipline = 'Geral') {
+    const map = {};
+    (rawTurmas || []).forEach(t => {
+        const turmaName = typeof t === 'string' ? t : (t.name || 'Turma');
+        const turmaIcon = typeof t === 'object' && t.icon ? t.icon : '';
+        const explicitDiscipline = typeof t === 'object' && t.discipline ? t.discipline : null;
+        const disc = explicitDiscipline || extractDiscipline(turmaName, turmaIcon, defaultDiscipline);
+        if (!map[disc]) {
+            map[disc] = {
+                discipline: disc,
+                count: 0,
+                turmas: []
+            };
+        }
+        map[disc].count++;
+        map[disc].turmas.push(turmaName);
+    });
+    return map;
+}
+
 module.exports = {
     normalizeStr,
     normalizeTurmaBase,
@@ -240,5 +266,6 @@ module.exports = {
     generateCanonicalStudentId,
     resolveCanonicalStudent,
     mapTeacherStudentsToCanonical,
-    pruneTeacherFromCanonicalMap
+    pruneTeacherFromCanonicalMap,
+    groupTurmasByDiscipline
 };

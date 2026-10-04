@@ -27,6 +27,32 @@
         "provas": 176,
         "diagnoses": 1,
         "plans": 0
+      },
+      "disciplines": [
+        "Língua Portuguesa",
+        "Projeto de Vida (MPV)"
+      ],
+      "disciplines_map": {
+        "Língua Portuguesa": {
+          "discipline": "Língua Portuguesa",
+          "count": 4,
+          "turmas": [
+            "Português  6º Ano",
+            "Português 7º Ano",
+            "Português 8º Ano",
+            "Português 9º Ano"
+          ]
+        },
+        "Projeto de Vida (MPV)": {
+          "discipline": "Projeto de Vida (MPV)",
+          "count": 4,
+          "turmas": [
+            "MPV / 6º Ano",
+            "MPV / 9º Ano",
+            "MPV / 7º Ano",
+            "MPV / 8º Ano"
+          ]
+        }
       }
     }
   },

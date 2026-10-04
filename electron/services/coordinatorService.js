@@ -96,7 +96,39 @@ function readManifest() {
         if (!raw || !raw.trim()) {
             return { vault_version: '2.1.0', teachers_index: {}, canonical_students: {} };
         }
-        return JSON.parse(raw);
+        const data = JSON.parse(raw);
+        let updated = false;
+
+        // Auto-cura e enriquecimento multi-curricular para docentes indexados
+        if (data && data.teachers_index) {
+            Object.values(data.teachers_index).forEach(t => {
+                if (!t.disciplines_map || !Array.isArray(t.disciplines)) {
+                    try {
+                        const shardPath = path.join(teachersDir, `${t.id}.json`);
+                        let rawTurmas = t.turmas || [];
+                        if (fs.existsSync(shardPath)) {
+                            const shardRaw = JSON.parse(fs.readFileSync(shardPath, 'utf8'));
+                            if (Array.isArray(shardRaw?.payload?.turmas) && shardRaw.payload.turmas.length > 0) {
+                                rawTurmas = shardRaw.payload.turmas;
+                            }
+                        }
+                        const grouped = identityResolver.groupTurmasByDiscipline(rawTurmas, t.discipline || 'Geral');
+                        const discList = Object.keys(grouped);
+                        t.disciplines = discList.length > 0 ? discList : [t.discipline || 'Geral'];
+                        t.disciplines_map = grouped;
+                        updated = true;
+                    } catch (_) { /* ignore */ }
+                }
+            });
+        }
+
+        if (updated) {
+            try {
+                fs.writeFileSync(manifestPath, JSON.stringify(data, null, 2), 'utf8');
+            } catch (_) { /* ignore */ }
+        }
+
+        return data;
     } catch (err) {
         console.error('[CoordinatorService] Erro ao ler manifest.json:', err.message);
         return { vault_version: '2.1.0', teachers_index: {}, canonical_students: {} };
@@ -249,13 +281,15 @@ async function ingestTeacherSnapshot(backupPackage, sourceMeta = {}) {
         }
     }
 
-    // Normalização das turmas e disciplinas
+    // Normalização das turmas e mapeamento multi-curricular de disciplinas
     const rawTurmas = Array.isArray(parsedData.turmas) ? parsedData.turmas : [];
     const rawStudents = Array.isArray(parsedData.students) ? parsedData.students : [];
     const turmaNames = rawTurmas.map(t => t.name).filter(Boolean);
 
-    // Extrai disciplina predominante ou informada
-    const discipline = sourceMeta.discipline || (rawTurmas[0]?.discipline || (rawTurmas[0] ? identityResolver.extractDiscipline(rawTurmas[0].name, rawTurmas[0].icon) : 'Geral'));
+    // Agrupa e detecta todas as disciplinas reais lecionadas pelo docente
+    const disciplinesGroupMap = identityResolver.groupTurmasByDiscipline(rawTurmas, sourceMeta.discipline || 'Geral');
+    const detectedDisciplines = Object.keys(disciplinesGroupMap);
+    const primaryDiscipline = sourceMeta.discipline || detectedDisciplines[0] || 'Geral';
 
     // Ingestão simultânea de diagnósticos de IA do acervo persistente
     let diagnosesList = Array.isArray(parsedData.diagnoses) ? [...parsedData.diagnoses] : [];
@@ -309,11 +343,13 @@ async function ingestTeacherSnapshot(backupPackage, sourceMeta = {}) {
     // Salva o shard do professor de forma atômica
     writeTeacherShard(teacherId, shardPayload);
 
-    // Atualiza o índice do manifest
+    // Atualiza o índice do manifest com discriminação multi-curricular
     manifest.teachers_index[teacherId] = {
         id: teacherId,
         name: teacherName,
-        discipline,
+        discipline: primaryDiscipline, // Preserva compatibilidade estrita
+        disciplines: detectedDisciplines.length > 0 ? detectedDisciplines : [primaryDiscipline],
+        disciplines_map: disciplinesGroupMap,
         turmas: turmaNames,
         last_backup_at: uploadedAt,
         backup_hash: fileHash,
@@ -508,6 +544,16 @@ function recalculateAggregatesCache(manifest) {
             ? Number((totalGradesSum / totalGradesCount).toFixed(2))
             : null;
 
+        // Agrega todas as disciplinas de todos os docentes sem omissão
+        const allSchoolDisciplines = new Set();
+        teachersList.forEach(t => {
+            if (Array.isArray(t.disciplines)) {
+                t.disciplines.forEach(d => allSchoolDisciplines.add(d));
+            } else if (t.discipline) {
+                allSchoolDisciplines.add(t.discipline);
+            }
+        });
+
         const aggregates = {
             calculated_at: new Date().toISOString(),
             total_students: totalStudents,
@@ -515,7 +561,7 @@ function recalculateAggregatesCache(manifest) {
             total_teachers: totalTeachers,
             total_diagnoses_indexed: allDiagnosesKeys.size,
             school_average: schoolAverage,
-            disciplines: [...new Set(teachersList.map(t => t.discipline).filter(Boolean))],
+            disciplines: Array.from(allSchoolDisciplines),
             turmas: [...new Set(teachersList.flatMap(t => t.turmas || []).filter(Boolean))]
         };
 
@@ -808,16 +854,31 @@ function getSchoolOverview() {
 
     if (!cachedAggregates || cachedAggregates.school_average === undefined) {
         cachedAggregates = recalculateAggregatesCache(manifest);
+    } else {
+        const manifestDisciplinesCount = new Set(Object.values(manifest.teachers_index || {}).flatMap(t => t.disciplines || [t.discipline]).filter(Boolean)).size;
+        const cachedDisciplinesCount = (cachedAggregates.disciplines || []).length;
+        if (cachedDisciplinesCount < manifestDisciplinesCount) {
+            cachedAggregates = recalculateAggregatesCache(manifest);
+        }
     }
 
     const studentsList = Object.values(manifest.canonical_students || {}).map(s => {
         const turmasList = s.turmas || (s.enrolled_teachers ? [...new Set(s.enrolled_teachers.map(e => e.turma_name).filter(Boolean))] : [s.display_turma]);
+        
+        // Identifica docentes únicos reais vinculados ao estudante
+        const teacherIdsSet = new Set((s.enrolled_teachers || []).map(e => e.teacher_id).filter(Boolean));
+        const teacherNamesList = [...new Set((s.enrolled_teachers || []).map(e => e.teacher_name).filter(Boolean))];
+        const studentDisciplinesList = [...new Set((s.enrolled_teachers || []).map(e => e.discipline).filter(Boolean))];
+
         return {
             canonical_id: s.canonical_id,
             canonical_name: s.canonical_name,
             display_turma: s.display_turma,
             turmas: turmasList,
-            disciplines_count: (s.enrolled_teachers || []).length
+            teachers_count: teacherIdsSet.size || (s.enrolled_teachers && s.enrolled_teachers.length > 0 ? 1 : 0),
+            teacher_names: teacherNamesList,
+            disciplines_count: studentDisciplinesList.length || (s.enrolled_teachers || []).length || 1,
+            disciplines: studentDisciplinesList
         };
     });
 

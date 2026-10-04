@@ -1,12 +1,13 @@
 {
-  "calculated_at": "2026-10-04T14:42:42.854Z",
+  "calculated_at": "2026-10-04T21:44:16.304Z",
   "total_students": 96,
   "total_canonical_students": 96,
   "total_teachers": 1,
   "total_diagnoses_indexed": 1,
   "school_average": 5.78,
   "disciplines": [
-    "Língua Portuguesa"
+    "Língua Portuguesa",
+    "Projeto de Vida (MPV)"
   ],
   "turmas": [
     "Português  6º Ano",

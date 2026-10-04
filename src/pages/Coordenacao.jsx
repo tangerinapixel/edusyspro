@@ -710,14 +710,15 @@ export default function Coordenacao() {
                         <tr>
                           <th className="px-5 py-3">Estudante</th>
                           <th className="px-5 py-3">Turma Base</th>
-                          <th className="px-5 py-3 text-center">Docentes Vinculados</th>
+                          <th className="px-5 py-3 text-center">Corpo Docente</th>
+                          <th className="px-5 py-3 text-center">Componentes Curriculares</th>
                           <th className="px-5 py-3 text-right">Dossiê Completo</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-slate-100 text-slate-700">
                         {filteredStudents.length === 0 ? (
                           <tr>
-                            <td colSpan={4} className="px-5 py-12 text-center text-slate-500 text-xs">
+                            <td colSpan={5} className="px-5 py-12 text-center text-slate-500 text-xs">
                               Nenhum estudante corresponde aos critérios de pesquisa selecionados.
                             </td>
                           </tr>
@@ -741,9 +742,37 @@ export default function Coordenacao() {
                                 </span>
                               </td>
                               <td className="px-5 py-3 text-center">
-                                <span className="px-2.5 py-0.5 rounded-md bg-slate-100 text-slate-600 border border-slate-200/60 text-xs font-semibold">
-                                  {st.disciplines_count || 1} Docente{st.disciplines_count === 1 ? '' : 's'}
-                                </span>
+                                <div className="inline-flex flex-col items-center">
+                                  <span className="px-2.5 py-0.5 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200/60 text-xs font-bold inline-flex items-center gap-1.5 shadow-2xs">
+                                    <svg className="w-3 h-3 text-emerald-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                    <span>{st.teachers_count || 1} Docente{(st.teachers_count || 1) === 1 ? '' : 's'}</span>
+                                  </span>
+                                  {Array.isArray(st.teacher_names) && st.teacher_names.length > 0 && (
+                                    <span className="text-[10px] text-slate-400 mt-0.5 max-w-[150px] truncate" title={st.teacher_names.join(', ')}>
+                                      {st.teacher_names.join(', ')}
+                                    </span>
+                                  )}
+                                </div>
+                              </td>
+                              <td className="px-5 py-3 text-center">
+                                <div className="flex flex-wrap items-center justify-center gap-1 max-w-[220px] mx-auto">
+                                  {Array.isArray(st.disciplines) && st.disciplines.length > 0 ? (
+                                    st.disciplines.map((d, dIdx) => (
+                                      <span
+                                        key={dIdx}
+                                        className="px-2 py-0.5 rounded-md bg-indigo-50/80 text-indigo-700 border border-indigo-100 text-[10px] font-semibold"
+                                      >
+                                        {d}
+                                      </span>
+                                    ))
+                                  ) : (
+                                    <span className="px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 border border-slate-200/60 text-[10px] font-semibold">
+                                      {st.disciplines_count || 1} Disciplina{(st.disciplines_count || 1) === 1 ? '' : 's'}
+                                    </span>
+                                  )}
+                                </div>
                               </td>
                               <td className="px-5 py-3 text-right">
                                 <button
@@ -805,64 +834,135 @@ export default function Coordenacao() {
                     const teacherName = tch.name || tch.teacher_name || 'Professor(a) Integrado(a)';
                     const teacherId = tch.id || tch.teacher_id || 'prof';
                     const lastUpdated = tch.last_backup_at || tch.last_ingested_at || tch.synced_at;
-                    const discipline = tch.discipline || 'Componentes Curriculares';
                     const turmasCount = Array.isArray(tch.turmas) ? tch.turmas.length : 0;
                     const studentsCount = tch.records_count?.students || 0;
+                    const assignments = tch.disciplines_map ? Object.values(tch.disciplines_map) : [];
+                    const disciplinesCount = assignments.length > 0 ? assignments.length : (Array.isArray(tch.disciplines) ? tch.disciplines.length : 1);
+
+                    // Tradução acadêmica formal de proveniência
+                    const sourceAcademicLabel = 
+                      tch.source === 'local_computer' || tch.source === 'local_ingest'
+                        ? 'Terminal Docente Local (Estação)'
+                        : tch.source === 'backup_file'
+                        ? 'Prontuário Pedagógico Importado (.json)'
+                        : 'Repositório Escolar em Nuvem (Google Drive)';
 
                     return (
                       <div
                         key={teacherId}
-                        className="p-5 rounded-2xl bg-white border border-slate-200/80 flex flex-col justify-between gap-3 shadow-2xs hover:border-slate-300 transition-all"
+                        className="p-5 rounded-2xl bg-white border border-slate-200/90 flex flex-col justify-between gap-4 shadow-2xs hover:shadow-xs hover:border-indigo-200 transition-all duration-200"
                       >
-                        <div>
-                          <div className="flex items-center justify-between mb-2">
-                            <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-100">
-                              Docente Integrado
-                            </span>
-                            <span className="text-[10px] text-slate-400">
-                              ID: {teacherId.substring(0, 12)}
-                            </span>
+                        <div className="space-y-3.5">
+                          {/* Cabeçalho do Card Docente */}
+                          <div className="flex items-start justify-between gap-3">
+                            <div className="flex items-center gap-3">
+                              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-600 text-white font-bold text-sm flex items-center justify-center shadow-xs shrink-0">
+                                {teacherName.charAt(0).toUpperCase()}
+                              </div>
+                              <div>
+                                <h4 className="text-sm font-bold text-slate-800 leading-tight">{teacherName}</h4>
+                                <div className="flex items-center gap-1.5 mt-0.5">
+                                  <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200/60 inline-flex items-center gap-1">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                                    <span>Docente Ativo</span>
+                                  </span>
+                                  <span className="text-[10px] text-slate-400 font-mono">
+                                    ID: {teacherId.substring(0, 10)}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
                           </div>
-                          <h4 className="text-sm font-bold text-slate-800">{teacherName}</h4>
-                          <p className="text-xs text-indigo-600 font-semibold mt-0.5">
-                            {discipline}
-                          </p>
-                          <p className="text-xs text-slate-500 mt-1">
-                            Origem:{' '}
-                            <span className="font-semibold text-slate-700">
-                              {tch.source === 'local_computer' || tch.source === 'local_ingest'
-                                ? 'Base Local deste Computador'
-                                : tch.source === 'backup_file'
-                                ? 'Arquivo de Backup (.json)'
-                                : 'Google Drive Institucional'}
-                            </span>
-                          </p>
-                          {(turmasCount > 0 || studentsCount > 0) && (
-                            <div className="mt-2 flex items-center gap-2 text-[10px] text-slate-500">
-                              {turmasCount > 0 && (
+
+                          {/* Seção de Atribuições de Cadeiras Curriculares Discriminadas */}
+                          <div className="space-y-2 pt-1">
+                            <div className="text-[11px] font-bold text-slate-500 uppercase tracking-wider flex items-center justify-between">
+                              <span>Atribuições Curriculares</span>
+                              <span className="text-[10px] text-indigo-600 font-bold bg-indigo-50 px-2 py-0.5 rounded-md">
+                                {disciplinesCount} {disciplinesCount === 1 ? 'Cadeira' : 'Cadeiras'} • {turmasCount} {turmasCount === 1 ? 'Turma' : 'Turmas'}
+                              </span>
+                            </div>
+
+                            {assignments.length > 0 ? (
+                              <div className="space-y-2">
+                                {assignments.map((asg, asgIdx) => (
+                                  <div
+                                    key={asgIdx}
+                                    className="p-2.5 rounded-xl bg-slate-50/80 border border-slate-100 hover:border-slate-200 transition-colors"
+                                  >
+                                    <div className="flex items-center justify-between gap-2 mb-1.5">
+                                      <div className="flex items-center gap-1.5 text-xs font-bold text-slate-700">
+                                        <span className="w-2 h-2 rounded-full bg-indigo-500 shrink-0"></span>
+                                        <span className="truncate">{asg.discipline}</span>
+                                      </div>
+                                      <span className="px-2 py-0.5 rounded-md bg-white border border-slate-200/80 text-[10px] font-bold text-slate-600 shrink-0 shadow-2xs">
+                                        {asg.count} {asg.count === 1 ? 'turma' : 'turmas'}
+                                      </span>
+                                    </div>
+                                    <div className="flex flex-wrap gap-1">
+                                      {(asg.turmas || []).map((tName, tIdx) => (
+                                        <span
+                                          key={tIdx}
+                                          className="px-1.5 py-0.5 rounded bg-white text-slate-600 text-[9px] font-medium border border-slate-200/60"
+                                        >
+                                          {tName.replace(/^Português\s*/i, '').replace(/^MPV\s*\/?\s*/i, '') || tName}
+                                        </span>
+                                      ))}
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            ) : (
+                              <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-between">
+                                <span className="text-xs font-bold text-slate-700">{tch.discipline || 'Componentes Curriculares'}</span>
+                                <span className="text-[10px] font-bold text-slate-600 bg-white px-2 py-0.5 rounded border border-slate-200">
+                                  {turmasCount} Turmas
+                                </span>
+                              </div>
+                            )}
+                          </div>
+
+                          {/* Métricas e Proveniência Acadêmica */}
+                          <div className="space-y-1.5 pt-1">
+                            <div className="flex items-center gap-2 text-[10px] text-slate-500 flex-wrap">
+                              <span className="bg-slate-100 px-2 py-0.5 rounded-md font-semibold text-slate-600">
+                                {studentsCount} Alunos Registrados
+                              </span>
+                              {tch.records_count?.activities > 0 && (
                                 <span className="bg-slate-100 px-2 py-0.5 rounded-md font-semibold text-slate-600">
-                                  {turmasCount} Turma{turmasCount > 1 ? 's' : ''}
+                                  {tch.records_count.activities} Atividades
                                 </span>
                               )}
-                              {studentsCount > 0 && (
+                              {tch.records_count?.provas > 0 && (
                                 <span className="bg-slate-100 px-2 py-0.5 rounded-md font-semibold text-slate-600">
-                                  {studentsCount} Aluno{studentsCount > 1 ? 's' : ''}
+                                  {tch.records_count.provas} Avaliações
                                 </span>
                               )}
                             </div>
-                          )}
+
+                            <div className="text-[11px] text-slate-500 flex items-center gap-1.5 pt-0.5">
+                              <svg className="w-3.5 h-3.5 text-slate-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                              </svg>
+                              <span>Fonte de Registro:</span>
+                              <span className="font-semibold text-slate-700 truncate">{sourceAcademicLabel}</span>
+                            </div>
+                          </div>
                         </div>
 
+                        {/* Rodapé com Atualização e Ações */}
                         <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
-                          <span>
-                            Atualizado:{' '}
-                            {lastUpdated
-                              ? new Date(lastUpdated).toLocaleDateString('pt-BR')
-                              : 'Recente'}
+                          <span className="flex items-center gap-1">
+                            <svg className="w-3 h-3 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span>
+                              {lastUpdated ? new Date(lastUpdated).toLocaleDateString('pt-BR') : 'Recente'}
+                            </span>
                           </span>
                           <button
                             onClick={() => handleRemoveTeacher(teacherId, teacherName)}
-                            className="text-rose-600 hover:text-rose-700 text-xs font-bold transition-colors cursor-pointer"
+                            className="text-rose-600 hover:text-rose-700 hover:bg-rose-50 px-2 py-1 rounded-md text-[11px] font-bold transition-all cursor-pointer active:scale-95"
                           >
                             Desvincular Professor
                           </button>

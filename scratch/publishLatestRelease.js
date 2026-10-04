@@ -28,13 +28,13 @@ async function publishLatest() {
     return;
   }
 
-  const changelog = `### 🚀 EduSys Pro v${pkg.version} - Central de Configurações da Gestão & Governança Institucional
+  const changelog = `### 🚀 EduSys Pro v${pkg.version} - Corpo Docente Multi-Curricular & Governança Institucional
 
-- **⚙️ Central de Configurações da Gestão Escolar (Coordenação)**: Nova aba dedicada e modular no Painel da Coordenação contendo gestão centralizada de identidade, segurança mestre, nuvem e timbrado institucional.
-- **👤 Perfil & Identidade do Gestor**: Configuração de nome de exibição do coordenador pedagógico e inclusão/remoção de foto de perfil (avatar) com compressão e redimensionamento automático via Canvas (256x256).
-- **🔐 Troca Segura de PIN Institucional & Auto-Lock**: Alteração de PIN mestre com hash criptográfico PBKDF2 (100.000 iterações com salt seguro), validação estrita de senha atual e política de auto-lock por inatividade customizável (5, 15, 30 ou 60 minutos).
-- **☁️ Gestão da Conta Google Drive**: Visualização em tempo real do status de conexão na nuvem, alternância segura de conta Google institucional e opção de desconexão.
-- **🏛️ Timbrado Institucional & Dossiê em PDF**: Definição oficial de nome da escola e subtítulo/slogan com prévia em tempo real de folha A4 e sincronização automática com o motor de exportação do Dossiê 360º em PDF.`;
+- **🏫 Corpo Docente Multi-Curricular (Gestão de Cadeiras Pedagógicas)**: Nova arquitetura discriminada para professores que lecionam múltiplos componentes curriculares. As atribuições agora são particionadas e contabilizadas por disciplina com contagem exata de turmas (ex: Língua Portuguesa com 4 turmas e Projeto de Vida / MPV com 4 turmas).
+- **👥 Dossiê dos Estudantes — Desacoplamento Fidedigno**: Separação clara e inequívoca entre Corpo Docente (contagem unívoca de docentes reais com indicação nominal) e Componentes Curriculares cursados, eliminando a exibição de contagem de disciplinas como se fossem professores distintos.
+- **🎓 Adequação Vocabular Acadêmica**: Padronização dos canais de ingestão institucional (*"Terminal Docente Local (Estação)"*, *"Prontuário Pedagógico Importado"*, *"Repositório Escolar em Nuvem"*), substituindo termos técnicos de TI por linguagem formal de gestão escolar.
+- **⚡ Cache de Agregados da Coordenação Sem Omissões**: Inclusão de todas as disciplinas curriculares ativas da instituição nos filtros e consolidados globais da escola.
+- **🛡️ 100% Auditado em Testes de Não-Regressão**: Bateria de 63 testes automatizados aprovados cobrindo integridade do cofre, motores de notas, cálculo de médias e geração de Dossiê 360º.`;
 
   console.log(`Publicando release ${draft.tag_name || targetTag} (ID: ${draft.id})...`);
   const patchRes = await fetch(`https://api.github.com/repos/tangerinapixel/edusyspro/releases/${draft.id}`, {

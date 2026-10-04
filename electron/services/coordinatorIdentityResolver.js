@@ -50,13 +50,13 @@ function extractDiscipline(turmaName = '', icon = '', fallback = 'Geral') {
     const raw = `${turmaName} ${icon}`;
     const norm = normalizeStr(raw);
 
-    if (norm.includes('portugues') || norm.includes('redacao') || norm.includes('literatura') || norm.includes('lingua portuguesa')) {
+    if (/\b(pt|port|lp|portugues|redacao|literatura|lingua portuguesa)\b/.test(norm)) {
         return 'Língua Portuguesa';
     }
-    if (norm.includes('matematica') || norm.includes('geometria') || norm.includes('algebra')) {
+    if (/\b(mat|matematica|geometria|algebra)\b/.test(norm)) {
         return 'Matemática';
     }
-    if (norm.includes('mpv') || norm.includes('projeto de vida') || norm.includes('metodologia de projeto de vida')) {
+    if (/\b(mpv|projeto de vida|metodologia de projeto de vida)\b/.test(norm)) {
         return 'Projeto de Vida (MPV)';
     }
     if (norm.includes('historia')) {

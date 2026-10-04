@@ -1,7 +1,7 @@
 {
-  "configured_at": "2026-10-04T21:52:59.831Z",
+  "configured_at": "2026-10-04T22:28:50.965Z",
   "coordinator_name": "Genilson Freitas",
-  "salt": "bafab5588503193e00503559e48f96fe",
-  "pin_hash": "3309dcfb5eb2d0647f9088625f5bcacd3b63a063b8cf988203e133bdbc8aaae2a8124d3840a25b07cd7f699fd1160bc6b63b6d68c045f2f5c904cae121507161",
+  "salt": "ca627e0e144604099c3a7d7fd4d2a901",
+  "pin_hash": "f1854c00bab83b4576b00690ddf6271a84ba9944a92734b1b1f3990bc919dd9e0f08258bcdec63977ec544f3e824620a2498da38195a516aef2c76ec73fd316f",
   "version": "2.1"
 }

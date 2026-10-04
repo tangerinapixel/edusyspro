@@ -71,8 +71,8 @@ async function downloadDriveFile(fileId) {
 async function syncAllTeachersFromDrive() {
     sessionManager.assertCoordinatorAccess();
 
-    const files = await discoverTeacherBackupFiles();
-    if (!files || files.length === 0) {
+    const rawFiles = await discoverTeacherBackupFiles();
+    if (!rawFiles || rawFiles.length === 0) {
         return {
             success: true,
             totalFound: 0,
@@ -82,10 +82,43 @@ async function syncAllTeachersFromDrive() {
         };
     }
 
+    // Deduplicação Inteligente no Google Drive:
+    // Agrupa backups pelo titular/proprietário e seleciona apenas a versão mais recente
+    const filesByOwner = {};
+    for (const f of rawFiles) {
+        const ownerKey = f.owners?.[0]?.emailAddress || f.owners?.[0]?.displayName || f.name.replace(/\.json$/i, '');
+        if (!filesByOwner[ownerKey]) {
+            filesByOwner[ownerKey] = [];
+        }
+        filesByOwner[ownerKey].push(f);
+    }
+
+    const filesToProcess = [];
     const syncResults = [];
+
+    Object.keys(filesByOwner).forEach(ownerKey => {
+        const group = filesByOwner[ownerKey];
+        // Ordena por modifiedTime descrescente (o mais novo primeiro)
+        group.sort((a, b) => new Date(b.modifiedTime).getTime() - new Date(a.modifiedTime).getTime());
+        
+        // O mais recente é mantido para processamento
+        filesToProcess.push(group[0]);
+
+        // Arquivos legados mais antigos do mesmo titular são descartados antes do download
+        for (let i = 1; i < group.length; i++) {
+            syncResults.push({
+                fileId: group[i].id,
+                fileName: group[i].name,
+                owner: ownerKey,
+                status: 'SKIPPED_LEGACY_OBSOLETE',
+                message: `Arquivo legado anterior ignorado em prol da versão mais recente de ${new Date(group[0].modifiedTime).toLocaleDateString('pt-BR')}`
+            });
+        }
+    });
+
     let syncedSuccess = 0;
 
-    for (const file of files) {
+    for (const file of filesToProcess) {
         try {
             const rawContent = await downloadDriveFile(file.id);
             const ownerName = file.owners?.[0]?.displayName || file.name.replace('.json', '');
@@ -122,7 +155,7 @@ async function syncAllTeachersFromDrive() {
 
     return {
         success: true,
-        totalFound: files.length,
+        totalFound: rawFiles.length,
         syncedCount: syncedSuccess,
         results: syncResults
     };

@@ -28,13 +28,14 @@ async function publishLatest() {
     return;
   }
 
-  const changelog = `### 🚀 EduSys Pro v${pkg.version} - Corpo Docente Multi-Curricular & Governança Institucional
+  const changelog = `### 🚀 EduSys Pro v${pkg.version} - Hub de Configurações Institucionais & Governança Pedagógica
 
-- **🏫 Corpo Docente Multi-Curricular (Gestão de Cadeiras Pedagógicas)**: Nova arquitetura discriminada para professores que lecionam múltiplos componentes curriculares. As atribuições agora são particionadas e contabilizadas por disciplina com contagem exata de turmas (ex: Língua Portuguesa com 4 turmas e Projeto de Vida / MPV com 4 turmas).
-- **👥 Dossiê dos Estudantes — Desacoplamento Fidedigno**: Separação clara e inequívoca entre Corpo Docente (contagem unívoca de docentes reais com indicação nominal) e Componentes Curriculares cursados, eliminando a exibição de contagem de disciplinas como se fossem professores distintos.
-- **🎓 Adequação Vocabular Acadêmica**: Padronização dos canais de ingestão institucional (*"Terminal Docente Local (Estação)"*, *"Prontuário Pedagógico Importado"*, *"Repositório Escolar em Nuvem"*), substituindo termos técnicos de TI por linguagem formal de gestão escolar.
-- **⚡ Cache de Agregados da Coordenação Sem Omissões**: Inclusão de todas as disciplinas curriculares ativas da instituição nos filtros e consolidados globais da escola.
-- **🛡️ 100% Auditado em Testes de Não-Regressão**: Bateria de 63 testes automatizados aprovados cobrindo integridade do cofre, motores de notas, cálculo de médias e geração de Dossiê 360º.`;
+- **⚙️ Novo Hub Dedicado de Configurações da Coordenação**: Área centralizada de gestão institucional inspirada na interface do docente, permitindo personalizar perfil, segurança de acesso e identidade escolar.
+- **🔐 Troca Segura de Senha & Gestão de Acesso**: Suporte à alteração imediata de credenciais de acesso da coordenação com validação criptográfica PBKDF2 e tempo de auto-lock configurável (5, 15, 30 ou 60 minutos de inatividade).
+- **👤 Perfil Institucional & Foto de Coordenador**: Upload e compressão automática de imagem para avatar em alta definição (256x256), exibido com destaque na barra superior e relatórios emitidos.
+- **☁️ Gestão Avançada de Nuvem Google Drive**: Interface interativa para alternar a conta conectada ou desconectar o repositório em nuvem com um clique.
+- **🏫 Identidade Institucional & Cabeçalho de Dossiês**: Customização de nome oficial da escola, subtítulo e prévia em tempo real com timbrado institucional dinamicamente aplicado a relatórios e dossiês em PDF.
+- **🛡️ 100% Auditado em Testes de Não-Regressão**: Validação completa de todos os fluxos com integridade do cofre e testes de compilação sem alertas de quebra.`;
 
   console.log(`Publicando release ${draft.tag_name || targetTag} (ID: ${draft.id})...`);
   const patchRes = await fetch(`https://api.github.com/repos/tangerinapixel/edusyspro/releases/${draft.id}`, {

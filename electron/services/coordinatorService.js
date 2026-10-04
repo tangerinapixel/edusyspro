@@ -281,6 +281,27 @@ async function ingestTeacherSnapshot(backupPackage, sourceMeta = {}) {
         }
     }
 
+    // Detecção de Professor Desvinculado Manualmente pelo Gestor
+    if (manifest.unlinked_sources && manifest.unlinked_sources[teacherId]) {
+        const unlinked = manifest.unlinked_sources[teacherId];
+        const unlinkedTime = new Date(unlinked.unlinked_at).getTime();
+        const incomingTime = new Date(uploadedAt).getTime();
+
+        if (incomingTime <= unlinkedTime || unlinked.backup_hash === fileHash) {
+            console.warn(`[CoordinatorService] Backup ignorado para ${teacherName}: professor foi previamente desvinculado.`);
+            return {
+                success: true,
+                status: 'SKIPPED_UNLINKED',
+                teacherId,
+                teacherName,
+                message: 'Professor foi desvinculado manualmente pelo gestor.'
+            };
+        } else {
+            // Arquivo novo gerado após a data da desvinculação: reativa o docente
+            delete manifest.unlinked_sources[teacherId];
+        }
+    }
+
     // Normalização das turmas e mapeamento multi-curricular de disciplinas
     const rawTurmas = Array.isArray(parsedData.turmas) ? parsedData.turmas : [];
     const rawStudents = Array.isArray(parsedData.students) ? parsedData.students : [];
@@ -599,6 +620,18 @@ function removeTeacher(teacherId) {
         return { success: false, error: 'Professor não localizado no cofre.' };
     }
 
+    const teacherMeta = manifest.teachers_index[teacherId];
+
+    // Registra na lista de fontes desvinculadas para impedir reimportação automática
+    manifest.unlinked_sources = manifest.unlinked_sources || {};
+    manifest.unlinked_sources[teacherId] = {
+        unlinked_at: new Date().toISOString(),
+        teacher_name: teacherMeta.teacher_name,
+        backup_hash: teacherMeta.backup_hash,
+        last_backup_at: teacherMeta.last_backup_at,
+        source: teacherMeta.source
+    };
+
     delete manifest.teachers_index[teacherId];
     manifest.canonical_students = identityResolver.pruneTeacherFromCanonicalMap(manifest.canonical_students, teacherId);
 
@@ -890,11 +923,17 @@ function getSchoolOverview() {
     };
 }
 
+function getUnlinkedSources() {
+    const manifest = readManifest();
+    return manifest.unlinked_sources || {};
+}
+
 module.exports = {
     ensureDirectories,
     ingestTeacherSnapshot,
     listTeachers,
     removeTeacher,
+    getUnlinkedSources,
     getTeacherShard,
     getStudent360,
     getSchoolOverview,

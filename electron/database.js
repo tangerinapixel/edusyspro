@@ -50,7 +50,7 @@ const dbPath = path.join(dbDir, 'school_data.json');
 const defaultData = {
     metadata: {
         last_updated: new Date().toISOString(),
-        app_version: "5.4.6"
+        app_version: "5.4.8"
     },
     settings: {
         behavior_start_score: 3.0,
@@ -354,9 +354,9 @@ function initDB() {
             const parsed = JSON.parse(decryptedRaw);
             let { data, migrated } = applyMigrations(parsed);
             
-            // Força a versão do metadado para 5.4.6
-            if (data.metadata && data.metadata.app_version !== "5.4.6") {
-                data.metadata.app_version = "5.4.6";
+            // Força a versão do metadado para 5.4.8
+            if (data.metadata && data.metadata.app_version !== "5.4.8") {
+                data.metadata.app_version = "5.4.8";
                 migrated = true;
             }
             

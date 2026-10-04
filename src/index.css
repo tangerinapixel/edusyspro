@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body, #root {
+    background-color: #020617;
+  }
+  body {
+    @apply text-gray-800 antialiased font-sans;
+  }
+}
+
+/* Ocultar barras de rolagem de forma definitiva (Ultra-Clean) */
+* {
+  -ms-overflow-style: none !important;  /* IE and Edge */
+  scrollbar-width: none !important;     /* Firefox */
+}
+
+@keyframes loading-bar {
+  0% { transform: scaleX(0); }
+  100% { transform: scaleX(1); }
+}
+
+.animate-loading-bar {
+  animation: loading-bar 2.2s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+@keyframes slideUpCenter {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 24px) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+}
+
+.animate-slide-up-center {
+  animation: slideUpCenter 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+}
+
+::-webkit-scrollbar-thumb {
+  display: none !important;
+}
+
+::-webkit-scrollbar-track {
+  display: none !important;
+}

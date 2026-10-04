@@ -1,0 +1,28 @@
+[
+  {
+    "id": "5927e578-f4d6-449c-87e0-3df58f1d526a",
+    "student_id": 27,
+    "student_name": "Amanda de Almeida de Jesus",
+    "turma_id": 1,
+    "turma_name": "Português  6º Ano",
+    "unit_id": 2,
+    "unit_name": "2ª Unidade",
+    "created_at": "2026-10-02T02:11:03.950Z",
+    "updated_at": "2026-10-02T02:11:03.950Z",
+    "author_name": "Roni Moreira",
+    "metrics_snapshot": {
+      "media_final": 3.1,
+      "behavior_score": 3,
+      "behavior_start_score": 3,
+      "adhesion_rate": 17,
+      "delivered_activities": 2,
+      "applied_activities": 12,
+      "occurrences_count": 0,
+      "class_average": 2.5523529411764705,
+      "rank_position": "14/34",
+      "trend": "Estável"
+    },
+    "diagnosis_text": "1.  **Panorama Comparativo**\n\nAmanda de Almeida de Jesus inicia a 2ª Unidade com uma Média Atual de 3.10 pontos, posicionando-se em 14º lugar entre os 34 estudantes da turma de Português do 6º Ano. Esta média atual da estudante supera a média da turma, que é de 2.55 pontos. No entanto, ao compararmos o desempenho de Amanda com a 1ª Unidade, onde obteve uma média de 4.94 pontos, observa-se uma variação negativa de 1.94 pontos, indicando uma **queda** significativa no rendimento médio.\n\nAté o momento, o comportamento disciplinar de Amanda é exemplar, mantendo a pontuação máxima de 3.00 de 3 pontos base, sem nenhuma ocorrência registrada. Em relação às lições de casa, que representam um componente importante para a consolidação do aprendizado, foram entregues apenas 2 das 12 lições correspondentes às aulas já ministradas, resultando em uma adesão real de 17%. É crucial notar que nenhum mini-teste, prova ou trabalho foi aplicado ou avaliado até a presente data, o que significa que a média atual reflete majoritariamente os itens de pontuação já contabilizados (comportamento e uma pequena parte das lições).\n\n2.  **Análise de Tendência e Dedicação**\n\nA trajetória de aprendizagem de Amanda na 2ª Unidade, quando comparada à unidade anterior, demonstra uma **tendência geral de queda** no desempenho, evidenciada pela redução de 1.94 pontos na média. Embora a \"Tendência Geral\" interna desta unidade seja classificada como \"Estável\" (dado que a maioria das avaliações ainda não ocorreu), a análise longitudinal revela uma preocupante diminuição de engajamento em atividades fundamentais.\n\nA baixa adesão às lições de casa (17% das aulas já ministradas) é o principal fator que contribui para essa tendência. Com apenas 2 lições entregues das 12 possíveis até o momento, e uma meta trimestral de 21 lições (com peso total de 1 ponto na média), há um descompasso considerável entre o volume de atividades propostas e o ritmo de entrega da estudante. A dedicação demonstrada na realização das lições é um indicador crucial do acompanhamento do conteúdo e da consolidação do aprendizado. A manutenção de um comportamento disciplinar impecável é um ponto positivo, mas o impacto na média geral será limitado se não for acompanhado por um maior engajamento nas atividades acadêmicas.\n\n3.  **Lacunas Cognitivas ou Oportunidades de Melhoria**\n\nConsiderando que nenhum mini-teste, prova ou trabalho foi aplicado, não é possível identificar lacunas cognitivas específicas com base em resultados de avaliação formal. No entanto, a principal oportunidade de melhoria reside na **ampliação da participação e entrega das lições de casa**. A baixa adesão (17%) sugere que Amanda pode não estar consolidando o conteúdo ministrado em sala de aula de forma consistente. Esta falta de prática pode, futuramente, gerar lacunas na compreensão dos conceitos e na aplicação das regras gramaticais e interpretativas, impactando diretamente seu desempenho nas avaliações futuras (provas e trabalhos) que ainda serão aplicadas nesta unidade. A recuperação do ritmo de entrega é fundamental para garantir a base necessária antes que as avaliações de maior peso sejam realizadas.\n\n4.  **Plano de Ação Estratégico**\n\nPara reverter a tendência de queda e otimizar o desempenho de Amanda na 2ª Unidade, propõe-se o seguinte plano de ação com foco nas atividades e avaliações futuras:\n\n*   **1. Aumento do Engajamento nas Lições de Casa:** Priorizar a entrega das 9 lições futuras a realizar, buscando atingir ou superar a meta trimestral. Recomenda-se que Amanda reserve um tempo diário específico para a realização das lições, organizando-se para não acumular atividades. É fundamental que as lições sejam vistas como uma oportunidade de revisão e fixação do conteúdo.\n*   **2. Revisão Ativa de Conteúdos Anteriores:** Considerando as lições não entregues, sugere-se que Amanda revise os tópicos das 10 aulas em que as lições não foram realizadas. Mesmo que as lições não possam ser entregues retroativamente, a revisão ativa desses conteúdos é crucial para preencher possíveis lacunas e garantir uma base sólida para os próximos assuntos e avaliações.\n*   **3. Preparação Antecipada para Avaliações Futuras:** Com a aproximação dos mini-testes, provas e trabalhos, é essencial que Amanda adote uma postura proativa. Isso inclui participar ativamente das aulas, tirar dúvidas com o professor e iniciar a revisão dos conteúdos com antecedência, utilizando materiais de apoio e simulados, se disponíveis.",
+    "evaluation_topics": []
+  }
+]

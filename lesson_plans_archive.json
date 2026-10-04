@@ -1,0 +1,902 @@
+[
+  {
+    "id": "plan_1790290167675_1c492b",
+    "turmaId": 5,
+    "turma": "MPV / 6º Ano",
+    "turmaName": "MPV / 6º Ano",
+    "unitId": 3,
+    "unidade": "3ª Unidade",
+    "unitLabel": "3ª Unidade",
+    "disciplina": "MPV",
+    "tema": "Oficina 13: Empreendedorismo social, horta comunitária 2\nComo executar o empreendedorismo social",
+    "publico": "MPV / 6º Ano",
+    "duracao": "2 aula(s) de 50 minutos",
+    "periodo": "23/09/2026 a 24/09/2026",
+    "datas": "23/09/2026 (1 aula), 24/09/2026 (1 aula)",
+    "cronogramaDetallado": [],
+    "professor": "Roni Moreira",
+    "professorName": "Roni Moreira",
+    "bnccCodes": [],
+    "totalAulas": 2,
+    "aulas": [
+      {
+        "numero": 1,
+        "data": "23/09/2026",
+        "titulo": "Missão: Detetive de Mensagens - Fato ou Opinião?",
+        "qtdAulas": "1 aula",
+        "conceito": "Professor, inicie a aula...",
+        "atividades": "Texto Base Inédito: ...",
+        "socializacao": "Debate...",
+        "gabarito": "Gabarito..."
+      },
+      {
+        "numero": 2,
+        "data": "24/09/2026",
+        "titulo": "Oficina Prática de Horta Comunitária",
+        "qtdAulas": "1 aula",
+        "conceito": "Professor, na segunda aula...",
+        "atividades": "Texto Base Inédito: ...",
+        "socializacao": "Debate...",
+        "gabarito": "Gabarito..."
+      }
+    ],
+    "objetivoGeral": "Desenvolver competências de empreendedorismo social e engajamento comunitário.",
+    "objetivosEspecificos": [
+      "Identificar problemas",
+      "Planejar a horta"
+    ],
+    "conteudos": [
+      "Empreendedorismo social",
+      "Ações práticas"
+    ],
+    "habilidadesBNCC": [
+      "EF06LP01: Habilidade teste"
+    ],
+    "fullData": {
+      "disciplina": "MPV",
+      "tema": "Oficina 13: Empreendedorismo social, horta comunitária 2\nComo executar o empreendedorismo social",
+      "turma": "MPV / 6º Ano",
+      "turmaName": "MPV / 6º Ano",
+      "unitLabel": "3ª Unidade",
+      "professorName": "Roni Moreira",
+      "duracao": "2 aula(s) de 50 minutos",
+      "periodo": "23/09/2026 a 24/09/2026",
+      "datas": "23/09/2026 (1 aula), 24/09/2026 (1 aula)",
+      "objetivoGeral": "Desenvolver competências de empreendedorismo social e engajamento comunitário.",
+      "objetivosEspecificos": [
+        "Identificar problemas",
+        "Planejar a horta"
+      ],
+      "conteudos": [
+        "Empreendedorismo social",
+        "Ações práticas"
+      ],
+      "habilidadesBNCC": [
+        "EF06LP01: Habilidade teste"
+      ],
+      "aulas": [
+        {
+          "numero": 1,
+          "data": "23/09/2026",
+          "titulo": "Missão: Detetive de Mensagens - Fato ou Opinião?",
+          "qtdAulas": "1 aula",
+          "conceito": "Professor, inicie a aula...",
+          "atividades": "Texto Base Inédito: ...",
+          "socializacao": "Debate...",
+          "gabarito": "Gabarito..."
+        },
+        {
+          "numero": 2,
+          "data": "24/09/2026",
+          "titulo": "Oficina Prática de Horta Comunitária",
+          "qtdAulas": "1 aula",
+          "conceito": "Professor, na segunda aula...",
+          "atividades": "Texto Base Inédito: ...",
+          "socializacao": "Debate...",
+          "gabarito": "Gabarito..."
+        }
+      ],
+      "unidade": "3ª Unidade",
+      "professor": "Roni Moreira"
+    },
+    "createdAt": "2026-09-24T22:49:27.675Z",
+    "updatedAt": "2026-09-24T22:49:27.675Z"
+  },
+  {
+    "id": "plan_1790289989002_b260ba",
+    "turmaId": 5,
+    "turma": "MPV / 6º Ano",
+    "turmaName": "MPV / 6º Ano",
+    "unitId": 3,
+    "unidade": "3ª Unidade",
+    "unitLabel": "3ª Unidade",
+    "disciplina": "MPV",
+    "tema": "Oficina 13: Empreendedorismo social, horta comunitária 2\nComo executar o empreendedorismo social",
+    "publico": "MPV / 6º Ano",
+    "duracao": "2 aula(s) de 50 minutos",
+    "periodo": "23/09/2026 a 24/09/2026",
+    "datas": "23/09/2026 (1 aula), 24/09/2026 (1 aula)",
+    "cronogramaDetallado": [],
+    "professor": "Roni Moreira",
+    "professorName": "Roni Moreira",
+    "bnccCodes": [],
+    "totalAulas": 2,
+    "aulas": [
+      {
+        "numero": 1,
+        "data": "23/09/2026",
+        "titulo": "Missão: Detetive de Mensagens - Fato ou Opinião?",
+        "qtdAulas": "1 aula",
+        "conceito": "Professor, inicie a aula...",
+        "atividades": "Texto Base Inédito: ...",
+        "socializacao": "Debate...",
+        "gabarito": "Gabarito..."
+      },
+      {
+        "numero": 2,
+        "data": "24/09/2026",
+        "titulo": "Oficina Prática de Horta Comunitária",
+        "qtdAulas": "1 aula",
+        "conceito": "Professor, na segunda aula...",
+        "atividades": "Texto Base Inédito: ...",
+        "socializacao": "Debate...",
+        "gabarito": "Gabarito..."
+      }
+    ],
+    "objetivoGeral": "Desenvolver competências de empreendedorismo social e engajamento comunitário.",
+    "objetivosEspecificos": [
+      "Identificar problemas",
+      "Planejar a horta"
+    ],
+    "conteudos": [
+      "Empreendedorismo social",
+      "Ações práticas"
+    ],
+    "habilidadesBNCC": [
+      "EF06LP01: Habilidade teste"
+    ],
+    "fullData": {
+      "disciplina": "MPV",
+      "tema": "Oficina 13: Empreendedorismo social, horta comunitária 2\nComo executar o empreendedorismo social",
+      "turma": "MPV / 6º Ano",
+      "turmaName": "MPV / 6º Ano",
+      "unitLabel": "3ª Unidade",
+      "professorName": "Roni Moreira",
+      "duracao": "2 aula(s) de 50 minutos",
+      "periodo": "23/09/2026 a 24/09/2026",
+      "datas": "23/09/2026 (1 aula), 24/09/2026 (1 aula)",
+      "objetivoGeral": "Desenvolver competências de empreendedorismo social e engajamento comunitário.",
+      "objetivosEspecificos": [
+        "Identificar problemas",
+        "Planejar a horta"
+      ],
+      "conteudos": [
+        "Empreendedorismo social",
+        "Ações práticas"
+      ],
+      "habilidadesBNCC": [
+        "EF06LP01: Habilidade teste"
+      ],
+      "aulas": [
+        {
+          "numero": 1,
+          "data": "23/09/2026",
+          "titulo": "Missão: Detetive de Mensagens - Fato ou Opinião?",
+          "qtdAulas": "1 aula",
+          "conceito": "Professor, inicie a aula...",
+          "atividades": "Texto Base Inédito: ...",
+          "socializacao": "Debate...",
+          "gabarito": "Gabarito..."
+        },
+        {
+          "numero": 2,
+          "data": "24/09/2026",
+          "titulo": "Oficina Prática de Horta Comunitária",
+          "qtdAulas": "1 aula",
+          "conceito": "Professor, na segunda aula...",
+          "atividades": "Texto Base Inédito: ...",
+          "socializacao": "Debate...",
+          "gabarito": "Gabarito..."
+        }
+      ],
+      "unidade": "3ª Unidade",
+      "professor": "Roni Moreira"
+    },
+    "createdAt": "2026-09-24T22:46:29.001Z",
+    "updatedAt": "2026-09-24T22:46:29.001Z"
+  },
+  {
+    "id": "plan_1790270968839_85abac",
+    "turmaId": 5,
+    "turma": "MPV / 6º Ano",
+    "turmaName": "MPV / 6º Ano",
+    "unitId": 3,
+    "unidade": "3ª Unidade",
+    "unitLabel": "3ª Unidade",
+    "disciplina": "MPV",
+    "tema": "Oficina 13: Empreendedorismo social, horta comunitária 2\nComo executar o empreendedorismo social",
+    "publico": "MPV / 6º Ano",
+    "duracao": "2 aula(s) de 50 minutos",
+    "periodo": "23/09/2026 a 24/09/2026",
+    "datas": "23/09/2026 (1 aula), 24/09/2026 (1 aula)",
+    "cronogramaDetallado": [],
+    "professor": "Roni Moreira",
+    "professorName": "Roni Moreira",
+    "bnccCodes": [],
+    "totalAulas": 2,
+    "aulas": [
+      {
+        "numero": 1,
+        "data": "23/09/2026",
+        "titulo": "Missão: Detetive de Mensagens - Fato ou Opinião?",
+        "qtdAulas": "1 aula",
+        "conceito": "Professor, inicie a aula...",
+        "atividades": "Texto Base Inédito: ...",
+        "socializacao": "Debate...",
+        "gabarito": "Gabarito..."
+      },
+      {
+        "numero": 2,
+        "data": "24/09/2026",
+        "titulo": "Oficina Prática de Horta Comunitária",
+        "qtdAulas": "1 aula",
+        "conceito": "Professor, na segunda aula...",
+        "atividades": "Texto Base Inédito: ...",
+        "socializacao": "Debate...",
+        "gabarito": "Gabarito..."
+      }
+    ],
+    "objetivoGeral": "Desenvolver competências de empreendedorismo social e engajamento comunitário.",
+    "objetivosEspecificos": [
+      "Identificar problemas",
+      "Planejar a horta"
+    ],
+    "conteudos": [
+      "Empreendedorismo social",
+      "Ações práticas"
+    ],
+    "habilidadesBNCC": [
+      "EF06LP01: Habilidade teste"
+    ],
+    "fullData": {
+      "disciplina": "MPV",
+      "tema": "Oficina 13: Empreendedorismo social, horta comunitária 2\nComo executar o empreendedorismo social",
+      "turma": "MPV / 6º Ano",
+      "turmaName": "MPV / 6º Ano",
+      "unitLabel": "3ª Unidade",
+      "professorName": "Roni Moreira",
+      "duracao": "2 aula(s) de 50 minutos",
+      "periodo": "23/09/2026 a 24/09/2026",
+      "datas": "23/09/2026 (1 aula), 24/09/2026 (1 aula)",
+      "objetivoGeral": "Desenvolver competências de empreendedorismo social e engajamento comunitário.",
+      "objetivosEspecificos": [
+        "Identificar problemas",
+        "Planejar a horta"
+      ],
+      "conteudos": [
+        "Empreendedorismo social",
+        "Ações práticas"
+      ],
+      "habilidadesBNCC": [
+        "EF06LP01: Habilidade teste"
+      ],
+      "aulas": [
+        {
+          "numero": 1,
+          "data": "23/09/2026",
+          "titulo": "Missão: Detetive de Mensagens - Fato ou Opinião?",
+          "qtdAulas": "1 aula",
+          "conceito": "Professor, inicie a aula...",
+          "atividades": "Texto Base Inédito: ...",
+          "socializacao": "Debate...",
+          "gabarito": "Gabarito..."
+        },
+        {
+          "numero": 2,
+          "data": "24/09/2026",
+          "titulo": "Oficina Prática de Horta Comunitária",
+          "qtdAulas": "1 aula",
+          "conceito": "Professor, na segunda aula...",
+          "atividades": "Texto Base Inédito: ...",
+          "socializacao": "Debate...",
+          "gabarito": "Gabarito..."
+        }
+      ],
+      "unidade": "3ª Unidade",
+      "professor": "Roni Moreira"
+    },
+    "createdAt": "2026-09-24T17:29:28.839Z",
+    "updatedAt": "2026-09-24T17:29:28.839Z"
+  },
+  {
+    "id": "plan_1790270697192_a38522",
+    "turmaId": 5,
+    "turma": "MPV / 6º Ano",
+    "turmaName": "MPV / 6º Ano",
+    "unitId": 3,
+    "unidade": "3ª Unidade",
+    "unitLabel": "3ª Unidade",
+    "disciplina": "MPV",
+    "tema": "Oficina 13: Empreendedorismo social, horta comunitária 2\nComo executar o empreendedorismo social",
+    "publico": "MPV / 6º Ano",
+    "duracao": "2 aula(s) de 50 minutos",
+    "periodo": "23/09/2026 a 24/09/2026",
+    "datas": "23/09/2026 (1 aula), 24/09/2026 (1 aula)",
+    "cronogramaDetallado": [],
+    "professor": "Roni Moreira",
+    "professorName": "Roni Moreira",
+    "bnccCodes": [],
+    "totalAulas": 2,
+    "aulas": [
+      {
+        "numero": 1,
+        "data": "23/09/2026",
+        "titulo": "Missão: Detetive de Mensagens - Fato ou Opinião?",
+        "qtdAulas": "1 aula",
+        "conceito": "Professor, inicie a aula...",
+        "atividades": "Texto Base Inédito: ...",
+        "socializacao": "Debate...",
+        "gabarito": "Gabarito..."
+      },
+      {
+        "numero": 2,
+        "data": "24/09/2026",
+        "titulo": "Oficina Prática de Horta Comunitária",
+        "qtdAulas": "1 aula",
+        "conceito": "Professor, na segunda aula...",
+        "atividades": "Texto Base Inédito: ...",
+        "socializacao": "Debate...",
+        "gabarito": "Gabarito..."
+      }
+    ],
+    "objetivoGeral": "Desenvolver competências de empreendedorismo social e engajamento comunitário.",
+    "objetivosEspecificos": [
+      "Identificar problemas",
+      "Planejar a horta"
+    ],
+    "conteudos": [
+      "Empreendedorismo social",
+      "Ações práticas"
+    ],
+    "habilidadesBNCC": [
+      "EF06LP01: Habilidade teste"
+    ],
+    "fullData": {
+      "disciplina": "MPV",
+      "tema": "Oficina 13: Empreendedorismo social, horta comunitária 2\nComo executar o empreendedorismo social",
+      "turma": "MPV / 6º Ano",
+      "turmaName": "MPV / 6º Ano",
+      "unitLabel": "3ª Unidade",
+      "professorName": "Roni Moreira",
+      "duracao": "2 aula(s) de 50 minutos",
+      "periodo": "23/09/2026 a 24/09/2026",
+      "datas": "23/09/2026 (1 aula), 24/09/2026 (1 aula)",
+      "objetivoGeral": "Desenvolver competências de empreendedorismo social e engajamento comunitário.",
+      "objetivosEspecificos": [
+        "Identificar problemas",
+        "Planejar a horta"
+      ],
+      "conteudos": [
+        "Empreendedorismo social",
+        "Ações práticas"
+      ],
+      "habilidadesBNCC": [
+        "EF06LP01: Habilidade teste"
+      ],
+      "aulas": [
+        {
+          "numero": 1,
+          "data": "23/09/2026",
+          "titulo": "Missão: Detetive de Mensagens - Fato ou Opinião?",
+          "qtdAulas": "1 aula",
+          "conceito": "Professor, inicie a aula...",
+          "atividades": "Texto Base Inédito: ...",
+          "socializacao": "Debate...",
+          "gabarito": "Gabarito..."
+        },
+        {
+          "numero": 2,
+          "data": "24/09/2026",
+          "titulo": "Oficina Prática de Horta Comunitária",
+          "qtdAulas": "1 aula",
+          "conceito": "Professor, na segunda aula...",
+          "atividades": "Texto Base Inédito: ...",
+          "socializacao": "Debate...",
+          "gabarito": "Gabarito..."
+        }
+      ],
+      "unidade": "3ª Unidade",
+      "professor": "Roni Moreira"
+    },
+    "createdAt": "2026-09-24T17:24:57.191Z",
+    "updatedAt": "2026-09-24T17:24:57.191Z"
+  },
+  {
+    "id": "plan_1790270649988_337850",
+    "turmaId": 5,
+    "turma": "MPV / 6º Ano",
+    "turmaName": "MPV / 6º Ano",
+    "unitId": 3,
+    "unidade": "3ª Unidade",
+    "unitLabel": "3ª Unidade",
+    "disciplina": "MPV",
+    "tema": "Oficina 13: Empreendedorismo social, horta comunitária 2\nComo executar o empreendedorismo social",
+    "publico": "MPV / 6º Ano",
+    "duracao": "2 aula(s) de 50 minutos",
+    "periodo": "23/09/2026 a 24/09/2026",
+    "datas": "23/09/2026 (1 aula), 24/09/2026 (1 aula)",
+    "cronogramaDetallado": [],
+    "professor": "Roni Moreira",
+    "professorName": "Roni Moreira",
+    "bnccCodes": [],
+    "totalAulas": 2,
+    "aulas": [
+      {
+        "numero": 1,
+        "data": "23/09/2026",
+        "titulo": "Missão: Detetive de Mensagens - Fato ou Opinião?",
+        "qtdAulas": "1 aula",
+        "conceito": "Professor, inicie a aula...",
+        "atividades": "Texto Base Inédito: ...",
+        "socializacao": "Debate...",
+        "gabarito": "Gabarito..."
+      },
+      {
+        "numero": 2,
+        "data": "24/09/2026",
+        "titulo": "Oficina Prática de Horta Comunitária",
+        "qtdAulas": "1 aula",
+        "conceito": "Professor, na segunda aula...",
+        "atividades": "Texto Base Inédito: ...",
+        "socializacao": "Debate...",
+        "gabarito": "Gabarito..."
+      }
+    ],
+    "objetivoGeral": "Desenvolver competências de empreendedorismo social e engajamento comunitário.",
+    "objetivosEspecificos": [
+      "Identificar problemas",
+      "Planejar a horta"
+    ],
+    "conteudos": [
+      "Empreendedorismo social",
+      "Ações práticas"
+    ],
+    "habilidadesBNCC": [
+      "EF06LP01: Habilidade teste"
+    ],
+    "fullData": {
+      "disciplina": "MPV",
+      "tema": "Oficina 13: Empreendedorismo social, horta comunitária 2\nComo executar o empreendedorismo social",
+      "turma": "MPV / 6º Ano",
+      "turmaName": "MPV / 6º Ano",
+      "unitLabel": "3ª Unidade",
+      "professorName": "Roni Moreira",
+      "duracao": "2 aula(s) de 50 minutos",
+      "periodo": "23/09/2026 a 24/09/2026",
+      "datas": "23/09/2026 (1 aula), 24/09/2026 (1 aula)",
+      "objetivoGeral": "Desenvolver competências de empreendedorismo social e engajamento comunitário.",
+      "objetivosEspecificos": [
+        "Identificar problemas",
+        "Planejar a horta"
+      ],
+      "conteudos": [
+        "Empreendedorismo social",
+        "Ações práticas"
+      ],
+      "habilidadesBNCC": [
+        "EF06LP01: Habilidade teste"
+      ],
+      "aulas": [
+        {
+          "numero": 1,
+          "data": "23/09/2026",
+          "titulo": "Missão: Detetive de Mensagens - Fato ou Opinião?",
+          "qtdAulas": "1 aula",
+          "conceito": "Professor, inicie a aula...",
+          "atividades": "Texto Base Inédito: ...",
+          "socializacao": "Debate...",
+          "gabarito": "Gabarito..."
+        },
+        {
+          "numero": 2,
+          "data": "24/09/2026",
+          "titulo": "Oficina Prática de Horta Comunitária",
+          "qtdAulas": "1 aula",
+          "conceito": "Professor, na segunda aula...",
+          "atividades": "Texto Base Inédito: ...",
+          "socializacao": "Debate...",
+          "gabarito": "Gabarito..."
+        }
+      ],
+      "unidade": "3ª Unidade",
+      "professor": "Roni Moreira"
+    },
+    "createdAt": "2026-09-24T17:24:09.987Z",
+    "updatedAt": "2026-09-24T17:24:09.987Z"
+  },
+  {
+    "id": "plan_1790269818757_3909fd",
+    "turmaId": 5,
+    "turma": "MPV / 6º Ano",
+    "turmaName": "MPV / 6º Ano",
+    "unitId": 3,
+    "unidade": "3ª Unidade",
+    "unitLabel": "3ª Unidade",
+    "disciplina": "MPV",
+    "tema": "Oficina 13: Empreendedorismo social, horta comunitária 2\nComo executar o empreendedorismo social",
+    "publico": "MPV / 6º Ano",
+    "duracao": "2 aula(s) de 50 minutos",
+    "periodo": "23/09/2026 a 24/09/2026",
+    "datas": "23/09/2026 (1 aula), 24/09/2026 (1 aula)",
+    "cronogramaDetallado": [],
+    "professor": "Roni Moreira",
+    "professorName": "Roni Moreira",
+    "bnccCodes": [],
+    "totalAulas": 2,
+    "aulas": [
+      {
+        "numero": 1,
+        "data": "23/09/2026",
+        "titulo": "Missão: Detetive de Mensagens - Fato ou Opinião?",
+        "qtdAulas": "1 aula",
+        "conceito": "Professor, inicie a aula...",
+        "atividades": "Texto Base Inédito: ...",
+        "socializacao": "Debate...",
+        "gabarito": "Gabarito..."
+      },
+      {
+        "numero": 2,
+        "data": "24/09/2026",
+        "titulo": "Oficina Prática de Horta Comunitária",
+        "qtdAulas": "1 aula",
+        "conceito": "Professor, na segunda aula...",
+        "atividades": "Texto Base Inédito: ...",
+        "socializacao": "Debate...",
+        "gabarito": "Gabarito..."
+      }
+    ],
+    "objetivoGeral": "Desenvolver competências de empreendedorismo social e engajamento comunitário.",
+    "objetivosEspecificos": [
+      "Identificar problemas",
+      "Planejar a horta"
+    ],
+    "conteudos": [
+      "Empreendedorismo social",
+      "Ações práticas"
+    ],
+    "habilidadesBNCC": [
+      "EF06LP01: Habilidade teste"
+    ],
+    "fullData": {
+      "disciplina": "MPV",
+      "tema": "Oficina 13: Empreendedorismo social, horta comunitária 2\nComo executar o empreendedorismo social",
+      "turma": "MPV / 6º Ano",
+      "turmaName": "MPV / 6º Ano",
+      "unitLabel": "3ª Unidade",
+      "professorName": "Roni Moreira",
+      "duracao": "2 aula(s) de 50 minutos",
+      "periodo": "23/09/2026 a 24/09/2026",
+      "datas": "23/09/2026 (1 aula), 24/09/2026 (1 aula)",
+      "objetivoGeral": "Desenvolver competências de empreendedorismo social e engajamento comunitário.",
+      "objetivosEspecificos": [
+        "Identificar problemas",
+        "Planejar a horta"
+      ],
+      "conteudos": [
+        "Empreendedorismo social",
+        "Ações práticas"
+      ],
+      "habilidadesBNCC": [
+        "EF06LP01: Habilidade teste"
+      ],
+      "aulas": [
+        {
+          "numero": 1,
+          "data": "23/09/2026",
+          "titulo": "Missão: Detetive de Mensagens - Fato ou Opinião?",
+          "qtdAulas": "1 aula",
+          "conceito": "Professor, inicie a aula...",
+          "atividades": "Texto Base Inédito: ...",
+          "socializacao": "Debate...",
+          "gabarito": "Gabarito..."
+        },
+        {
+          "numero": 2,
+          "data": "24/09/2026",
+          "titulo": "Oficina Prática de Horta Comunitária",
+          "qtdAulas": "1 aula",
+          "conceito": "Professor, na segunda aula...",
+          "atividades": "Texto Base Inédito: ...",
+          "socializacao": "Debate...",
+          "gabarito": "Gabarito..."
+        }
+      ],
+      "unidade": "3ª Unidade",
+      "professor": "Roni Moreira"
+    },
+    "createdAt": "2026-09-24T17:10:18.756Z",
+    "updatedAt": "2026-09-24T17:10:18.756Z"
+  },
+  {
+    "id": "plan_1790266547501_9ed4f0",
+    "turmaId": 5,
+    "turma": "MPV / 6º Ano",
+    "turmaName": "MPV / 6º Ano",
+    "unitId": 3,
+    "unidade": "3ª Unidade",
+    "unitLabel": "3ª Unidade",
+    "disciplina": "MPV",
+    "tema": "Oficina 13: Empreendedorismo social, horta comunitária 2\nComo executar o empreendedorismo social",
+    "publico": "MPV / 6º Ano",
+    "duracao": "2 aula(s) de 50 minutos",
+    "periodo": "23/09/2026 a 24/09/2026",
+    "datas": "23/09/2026 (1 aula), 24/09/2026 (1 aula)",
+    "cronogramaDetallado": [],
+    "professor": "Roni Moreira",
+    "professorName": "Roni Moreira",
+    "bnccCodes": [],
+    "totalAulas": 2,
+    "aulas": [
+      {
+        "numero": 1,
+        "data": "23/09/2026",
+        "titulo": "Missão: Detetive de Mensagens - Fato ou Opinião?",
+        "qtdAulas": "1 aula",
+        "conceito": "Professor, inicie a aula...",
+        "atividades": "Texto Base Inédito: ...",
+        "socializacao": "Debate...",
+        "gabarito": "Gabarito..."
+      },
+      {
+        "numero": 2,
+        "data": "24/09/2026",
+        "titulo": "Oficina Prática de Horta Comunitária",
+        "qtdAulas": "1 aula",
+        "conceito": "Professor, na segunda aula...",
+        "atividades": "Texto Base Inédito: ...",
+        "socializacao": "Debate...",
+        "gabarito": "Gabarito..."
+      }
+    ],
+    "objetivoGeral": "Desenvolver competências de empreendedorismo social e engajamento comunitário.",
+    "objetivosEspecificos": [
+      "Identificar problemas",
+      "Planejar a horta"
+    ],
+    "conteudos": [
+      "Empreendedorismo social",
+      "Ações práticas"
+    ],
+    "habilidadesBNCC": [
+      "EF06LP01: Habilidade teste"
+    ],
+    "fullData": {
+      "disciplina": "MPV",
+      "tema": "Oficina 13: Empreendedorismo social, horta comunitária 2\nComo executar o empreendedorismo social",
+      "turma": "MPV / 6º Ano",
+      "turmaName": "MPV / 6º Ano",
+      "unitLabel": "3ª Unidade",
+      "professorName": "Roni Moreira",
+      "duracao": "2 aula(s) de 50 minutos",
+      "periodo": "23/09/2026 a 24/09/2026",
+      "datas": "23/09/2026 (1 aula), 24/09/2026 (1 aula)",
+      "objetivoGeral": "Desenvolver competências de empreendedorismo social e engajamento comunitário.",
+      "objetivosEspecificos": [
+        "Identificar problemas",
+        "Planejar a horta"
+      ],
+      "conteudos": [
+        "Empreendedorismo social",
+        "Ações práticas"
+      ],
+      "habilidadesBNCC": [
+        "EF06LP01: Habilidade teste"
+      ],
+      "aulas": [
+        {
+          "numero": 1,
+          "data": "23/09/2026",
+          "titulo": "Missão: Detetive de Mensagens - Fato ou Opinião?",
+          "qtdAulas": "1 aula",
+          "conceito": "Professor, inicie a aula...",
+          "atividades": "Texto Base Inédito: ...",
+          "socializacao": "Debate...",
+          "gabarito": "Gabarito..."
+        },
+        {
+          "numero": 2,
+          "data": "24/09/2026",
+          "titulo": "Oficina Prática de Horta Comunitária",
+          "qtdAulas": "1 aula",
+          "conceito": "Professor, na segunda aula...",
+          "atividades": "Texto Base Inédito: ...",
+          "socializacao": "Debate...",
+          "gabarito": "Gabarito..."
+        }
+      ],
+      "unidade": "3ª Unidade",
+      "professor": "Roni Moreira"
+    },
+    "createdAt": "2026-09-24T16:15:47.500Z",
+    "updatedAt": "2026-09-24T16:15:47.500Z"
+  },
+  {
+    "id": "plan_1790266394229_2b5b4b",
+    "turmaId": 5,
+    "turma": "MPV / 6º Ano",
+    "turmaName": "MPV / 6º Ano",
+    "unitId": 3,
+    "unidade": "3ª Unidade",
+    "unitLabel": "3ª Unidade",
+    "disciplina": "MPV",
+    "tema": "Oficina 13: Empreendedorismo social",
+    "publico": "MPV / 6º Ano",
+    "duracao": "2 aula(s) de 50 minutos",
+    "periodo": "23/09/2026 a 24/09/2026",
+    "datas": "23/09/2026 (1 aula), 24/09/2026 (1 aula)",
+    "cronogramaDetallado": [],
+    "professor": "Professor(a)",
+    "professorName": "Professor(a)",
+    "bnccCodes": [],
+    "totalAulas": 2,
+    "aulas": [
+      {
+        "data": "23/09/2026",
+        "titulo": "Aula 1",
+        "qtdAulas": "1 aula"
+      },
+      {
+        "data": "24/09/2026",
+        "titulo": "Aula 2",
+        "qtdAulas": "1 aula"
+      }
+    ],
+    "objetivoGeral": "",
+    "objetivosEspecificos": [],
+    "conteudos": [],
+    "habilidadesBNCC": [],
+    "fullData": {
+      "turmaId": 1,
+      "turmaName": "MPV / 6º Ano",
+      "unitId": 3,
+      "unitLabel": "3ª Unidade",
+      "disciplina": "MPV",
+      "tema": "Oficina 13: Empreendedorismo social",
+      "aulas": [
+        {
+          "data": "23/09/2026",
+          "titulo": "Aula 1",
+          "qtdAulas": "1 aula"
+        },
+        {
+          "data": "24/09/2026",
+          "titulo": "Aula 2",
+          "qtdAulas": "1 aula"
+        }
+      ],
+      "turma": "MPV / 6º Ano",
+      "unidade": "3ª Unidade",
+      "professor": "Professor(a)",
+      "professorName": "Professor(a)",
+      "periodo": "23/09/2026 a 24/09/2026",
+      "datas": "23/09/2026 (1 aula), 24/09/2026 (1 aula)"
+    },
+    "createdAt": "2026-09-24T16:13:14.228Z",
+    "updatedAt": "2026-09-24T16:13:14.228Z"
+  },
+  {
+    "id": "plan_1790201409229_73687d",
+    "turmaId": 4,
+    "turmaName": "Português 9º Ano",
+    "unitId": 2,
+    "unitLabel": "2ª Unidade",
+    "disciplina": "Língua Portuguesa",
+    "tema": "Verbos no infinitivo",
+    "publico": "Ensino Fundamental II",
+    "duracao": "3 aula(s) de 50 minutos",
+    "professorName": "Roni Moreira",
+    "bnccCodes": [],
+    "totalAulas": 3,
+    "aulas": [
+      {
+        "numero": 1,
+        "data": "24/09/2026",
+        "titulo": "Infinitivo: Desvendando a Essência da Ação",
+        "qtdAulas": "1 aula",
+        "conceito": "Professor, inicie a aula explicando que os verbos são o coração da nossa comunicação, expressando ações, estados ou fenômenos. Dentre suas múltiplas formas, o infinitivo se destaca por sua capacidade de representar o verbo em sua essência, sem uma conjugação específica que indique pessoa ou tempo verbal. Apresente o infinitivo como a \"forma original\" do verbo, terminando em -ar, -er ou -ir (cantar, comer, partir). Enfatize que, embora pareça simples, o infinitivo possui funções complexas e cruciais na construção de frases, atuando por vezes como substantivo, adjetivo ou advérbio, e sendo fundamental para a clareza e concisão textual. Abordem a distinção inicial entre infinitivo impessoal (sem sujeito definido, como em \"É proibido fumar\") e pessoal (com sujeito definido, mesmo que oculto, como em \"Para vocês estudarem\").",
+        "atividades": "Texto Base Inédito: \"A Arte de Viver e Aprender\"\n\nViver é uma arte complexa, um constante desafio a decifrar. Para realmente aprender, é preciso estar disposto a errar, a cair e a levantar. Observar o mundo ao redor, escutar as histórias dos mais velhos e tentar compreender diferentes perspectivas são passos essenciais para amadurecer. É fundamental reconhecer que cada indivíduo tem o seu próprio ritmo, a sua maneira de ver e sentir. Não podemos julgar sem antes procurar entender. A capacidade de dialogar, de expressar ideias e de aceitar o contraditório são pilares para construir uma sociedade mais justa. É um privilégio poder contribuir para um futuro melhor, para sonhar e realizar.\n\nDesafio Investigativo 1:\n1. Identifique e liste todos os verbos no infinitivo presentes no texto. Classifique-os como infinitivo pessoal ou impessoal, justificando sua escolha.\n2. Analise a função sintática de três verbos no infinitivo que você identificou. Por exemplo, \"Viver é uma arte\": qual a função de \"Viver\"? E em \"É preciso estar disposto\": qual a função de \"estar\"?\n3. Reescreva a frase \"Para realmente aprender, é preciso estar disposto a errar\" utilizando verbos conjugados no modo indicativo, mantendo o sentido original, e explique o impacto da mudança na concisão da frase.",
+        "socializacao": "Professor, promova uma discussão aberta, pedindo que os alunos compartilhem suas listas de verbos e suas classificações. Incentive-os a justificar suas respostas, corrigindo eventuais equívocos e reforçando os conceitos de infinitivo pessoal e impessoal. Na análise das funções sintáticas, peça que expliquem como chegaram às suas conclusões, auxiliando-os a perceber o papel do infinitivo como substantivo, adjetivo ou advérbio. Para a questão de reescrita, compare as versões dos alunos e discuta como o infinitivo contribui para a economia e a elegância da linguagem.",
+        "gabarito": "1. Verbos no infinitivo: Viver (impessoal), decifrar (impessoal), aprender (impessoal/pessoal genérico), estar (impessoal), errar (impessoal), cair (impessoal), levantar (impessoal), Observar (impessoal), escutar (impessoal), tentar (impessoal), compreender (impessoal), amadurecer (impessoal), reconhecer (impessoal), ver (impessoal), sentir (impessoal), julgar (impessoal), procurar (impessoal), entender (impessoal), dialogar (impessoal), expressar (impessoal), aceitar (impessoal), construir (impessoal), contribuir (impessoal), sonhar (impessoal), realizar (impessoal).\n*Justificativa:* A maioria dos infinitivos no texto é impessoal, pois o sujeito é indeterminado ou genérico. Mesmo em \"Para realmente aprender\", embora se possa subentender um 'nós' ou 'você' genérico, a forma não se flexiona, mantendo o caráter impessoal de uma ação geral.\n2. *Viver é uma arte:* \"Viver\" funciona como substantivo (sujeito da oração), equivalente a \"A vida é uma arte\".\n*É preciso estar disposto:* \"estar\" funciona como parte de uma oração subordinada substantiva subjetiva reduzida de infinitivo, atuando como o núcleo do predicado verbal.\n*Para realmente aprender:* \"aprender\" funciona como advérbio (integrante de oração subordinada adverbial final reduzida de infinitivo), indicando finalidade.\n3. *Reescrita possível:* \"Para que realmente se aprenda, é preciso que se esteja disposto a que se erre.\" ou \"Se quisermos realmente aprender, precisamos estar dispostos a errar.\"\n*Impacto:* A versão com verbos conjugados torna a frase mais longa e menos concisa. O infinitivo permite uma construção mais direta e elegante, evitando a repetição de conjunções e pronomes, e mantendo a generalidade da afirmação, o que contribui para a fluidez e economia textual."
+      },
+      {
+        "numero": 2,
+        "data": "24/09/2026",
+        "titulo": "Funções do Infinitivo: Além da Ação Pura",
+        "qtdAulas": "1 aula",
+        "conceito": "Professor, retome a discussão sobre o infinitivo como a forma nominal do verbo, focando agora nas suas diversas funções sintáticas. Explique que o infinitivo não se limita a expressar uma ação de forma neutra; ele pode assumir papéis de substantivo, adjetivo ou advérbio dentro da frase, dependendo do contexto. Apresente exemplos claros: como substantivo (sujeito, objeto direto, complemento nominal), como adjetivo (qualificando um substantivo, como em \"máquina de costurar\") e como advérbio (expressando finalidade, causa, condição, como em \"Ao sair, fechou a porta\"). Aprofunde a ideia de orações reduzidas de infinitivo, que são formas mais econômicas e elegantes de construir períodos compostos, substituindo orações desenvolvidas.",
+        "atividades": "Texto Base Inédito: \"O Desafio de Compreender o Outro\"\n\nTentar compreender o outro é um exercício constante de empatia. Para realmente se conectar, é preciso ouvir atentamente, sem julgar. A capacidade de se colocar no lugar do próximo, de sentir suas dores e celebrar suas alegrias, é o que nos permite construir pontes. Ver o mundo pelos olhos de quem vive realidades diferentes das nossas pode abrir horizontes. É fundamental aprender a respeitar as opiniões divergentes, a dialogar mesmo quando discordar. O ato de perdoar, de deixar para trás ressentimentos, é um passo crucial para a paz interior. É um grande desafio viver em harmonia, mas devemos sempre buscar construir um futuro de colaboração.\n\nDesafio Investigativo 2:\n1. Releia o texto e identifique três ocorrências de verbos no infinitivo que desempenham funções sintáticas diferentes. Para cada um, indique a função e justifique sua resposta.\n2. Compare as frases \"Para realmente se conectar, é preciso ouvir atentamente\" e \"Para que realmente nos conectemos, é preciso que ouçamos atentamente\". Explique as diferenças de estrutura e o impacto na fluidez da leitura.\n3. Transforme a frase \"É essencial que as pessoas colaborem para um mundo melhor\" em uma estrutura com infinitivo, mantendo o sentido original. Qual a vantagem dessa nova formulação?",
+        "socializacao": "Professor, guie a correção das atividades, priorizando a discussão sobre as funções sintáticas identificadas pelos alunos. Peça que justifiquem suas análises, incentivando a troca de ideias e a argumentação. Na comparação das frases, explore a percepção dos alunos sobre a concisão e a formalidade, destacando como o infinitivo pode simplificar a sintaxe. Para a transformação da frase, estimule-os a reconhecer a economia linguística e a elegância que o infinitivo proporciona.",
+        "gabarito": "1. *Exemplos de identificação e função:*\n*   \"Tentar compreender o outro\": \"Tentar\" funciona como sujeito da oração, equivalente a \"A tentativa de compreender...\".\n*   \"Para realmente se conectar\": \"conectar\" funciona como advérbio (integrante de oração subordinada adverbial final reduzida de infinitivo), indicando propósito.\n*   \"Ver o mundo pelos olhos\": \"Ver\" funciona como sujeito da oração, equivalente a \"A visão do mundo...\".\n*   \"O ato de perdoar\": \"perdoar\" funciona como complemento nominal de \"ato\", especificando qual tipo de ato.\n2. *Diferenças e impacto:*\n*   \"Para realmente se conectar, é preciso ouvir atentamente\" (com infinitivo): Mais concisa, fluida e direta. Utiliza orações reduzidas de infinitivo, conferindo maior elegância e economia à linguagem.\n*   \"Para que realmente nos conectemos, é preciso que ouçamos atentamente\" (com verbos conjugados): Mais formal e desenvolvida, com o uso de conjunções (\"que\") e verbos conjugados no subjuntivo. Pode soar um pouco mais \"pesada\" ou menos direta na leitura, pois exige mais elementos sintáticos para expressar a mesma ideia. A versão com infinitivo é geralmente preferida em contextos que buscam concisão e elegância.\n3. *Transformação:* \"É essencial colaborar para um mundo melhor.\" ou \"Colaborar para um mundo melhor é essencial.\"\n*Vantagem:* A nova formulação com o infinitivo é mais concisa, elegante e direta. Ela evita a necessidade de uma oração subordinada desenvolvida (\"que as pessoas colaborem\"), simplificando a estrutura sintática sem perder o sentido, o que facilita a compreensão e melhora a fluidez textual."
+      },
+      {
+        "numero": 3,
+        "data": "28/09/2026",
+        "titulo": "Infinitivo Pessoal e Impessoal: Usos e Concordância",
+        "qtdAulas": "1 aula",
+        "conceito": "Professor, aprofunde a distinção entre infinitivo pessoal e impessoal, um ponto crucial para a",
+        "atividades": "",
+        "socializacao": "",
+        "gabarito": ""
+      }
+    ],
+    "objetivoGeral": "Capacitar o estudante do 9º ano a identificar, analisar criticamente e empregar de forma autônoma e consciente os verbos no infinitivo, compreendendo suas funções sintáticas e semânticas em diferentes contextos comunicativos, visando aprimorar a coesão, coerência e expressividade de suas produções textuais e orais.",
+    "fullData": {
+      "unidade": "2ª Unidade",
+      "periodo": "24/09/2026 a 28/09/2026",
+      "professor": "Roni Moreira",
+      "disciplina": "Língua Portuguesa",
+      "turma": "Português 9º Ano",
+      "datas": "24/09/2026 (2 aulas), 28/09/2026 (1 aula)",
+      "duracao": "3 aula(s) de 50 minutos",
+      "tema": "Verbos no infinitivo",
+      "objetivoGeral": "Capacitar o estudante do 9º ano a identificar, analisar criticamente e empregar de forma autônoma e consciente os verbos no infinitivo, compreendendo suas funções sintáticas e semânticas em diferentes contextos comunicativos, visando aprimorar a coesão, coerência e expressividade de suas produções textuais e orais.",
+      "objetivosEspecificos": [
+        "Reconhecer e diferenciar os verbos no infinitivo (pessoal e impessoal) em textos variados, identificando suas terminações e características morfológicas.",
+        "Analisar as funções sintáticas dos verbos no infinitivo (substantiva, adjetiva, adverbial) e os efeitos de sentido decorrentes de seu emprego em orações reduzidas e locuções verbais, comparando seu uso com outras formas verbais.",
+        "Produzir textos coesos e coerentes, empregando adequadamente os verbos no infinitivo, com atenção à concordância verbal quando aplicável, para expressar intenções, ordens, conselhos ou ações de forma clara, objetiva e gramaticalmente correta."
+      ],
+      "conteudos": [
+        "Definição e características do infinitivo (formas: -ar, -er, -ir).",
+        "Diferenças entre infinitivo pessoal e impessoal e suas regras de flexão.",
+        "Funções sintáticas do infinitivo: como substantivo (sujeito, objeto direto, complemento nominal), como adjetivo e como advérbio.",
+        "O infinitivo em orações reduzidas (subordinadas substantivas, adjetivas e adverbiais) e em locuções verbais.",
+        "Concordância verbal com o infinitivo pessoal e impessoal."
+      ],
+      "habilidadesBNCC": [
+        "EF89LP04: Analisar os efeitos de sentido produzidos pelo uso de recursos expressivos como o emprego de figuras de linguagem, pontuação, conjunções, modos e tempos verbais, entre outros, em textos de diferentes gêneros.",
+        "EF89LP29: Utilizar, na produção de textos, conhecimentos sobre modalidade, coesão, coerência e progressão temática, articulando-os de forma adequada e pertinente.",
+        "EF09LP05: Analisar e interpretar os efeitos de sentido decorrentes do uso de recursos linguístico-discursivos em textos de diferentes gêneros, como o emprego de tempos e modos verbais, a concordância verbal e nominal, a regência verbal e nominal, a colocação pronominal, a pontuação, a coesão referencial e sequencial, a progressão temática e a articulação entre frases e parágrafos."
+      ],
+      "aulas": [
+        {
+          "numero": 1,
+          "data": "24/09/2026",
+          "titulo": "Infinitivo: Desvendando a Essência da Ação",
+          "qtdAulas": "1 aula",
+          "conceito": "Professor, inicie a aula explicando que os verbos são o coração da nossa comunicação, expressando ações, estados ou fenômenos. Dentre suas múltiplas formas, o infinitivo se destaca por sua capacidade de representar o verbo em sua essência, sem uma conjugação específica que indique pessoa ou tempo verbal. Apresente o infinitivo como a \"forma original\" do verbo, terminando em -ar, -er ou -ir (cantar, comer, partir). Enfatize que, embora pareça simples, o infinitivo possui funções complexas e cruciais na construção de frases, atuando por vezes como substantivo, adjetivo ou advérbio, e sendo fundamental para a clareza e concisão textual. Abordem a distinção inicial entre infinitivo impessoal (sem sujeito definido, como em \"É proibido fumar\") e pessoal (com sujeito definido, mesmo que oculto, como em \"Para vocês estudarem\").",
+          "atividades": "Texto Base Inédito: \"A Arte de Viver e Aprender\"\n\nViver é uma arte complexa, um constante desafio a decifrar. Para realmente aprender, é preciso estar disposto a errar, a cair e a levantar. Observar o mundo ao redor, escutar as histórias dos mais velhos e tentar compreender diferentes perspectivas são passos essenciais para amadurecer. É fundamental reconhecer que cada indivíduo tem o seu próprio ritmo, a sua maneira de ver e sentir. Não podemos julgar sem antes procurar entender. A capacidade de dialogar, de expressar ideias e de aceitar o contraditório são pilares para construir uma sociedade mais justa. É um privilégio poder contribuir para um futuro melhor, para sonhar e realizar.\n\nDesafio Investigativo 1:\n1. Identifique e liste todos os verbos no infinitivo presentes no texto. Classifique-os como infinitivo pessoal ou impessoal, justificando sua escolha.\n2. Analise a função sintática de três verbos no infinitivo que você identificou. Por exemplo, \"Viver é uma arte\": qual a função de \"Viver\"? E em \"É preciso estar disposto\": qual a função de \"estar\"?\n3. Reescreva a frase \"Para realmente aprender, é preciso estar disposto a errar\" utilizando verbos conjugados no modo indicativo, mantendo o sentido original, e explique o impacto da mudança na concisão da frase.",
+          "socializacao": "Professor, promova uma discussão aberta, pedindo que os alunos compartilhem suas listas de verbos e suas classificações. Incentive-os a justificar suas respostas, corrigindo eventuais equívocos e reforçando os conceitos de infinitivo pessoal e impessoal. Na análise das funções sintáticas, peça que expliquem como chegaram às suas conclusões, auxiliando-os a perceber o papel do infinitivo como substantivo, adjetivo ou advérbio. Para a questão de reescrita, compare as versões dos alunos e discuta como o infinitivo contribui para a economia e a elegância da linguagem.",
+          "gabarito": "1. Verbos no infinitivo: Viver (impessoal), decifrar (impessoal), aprender (impessoal/pessoal genérico), estar (impessoal), errar (impessoal), cair (impessoal), levantar (impessoal), Observar (impessoal), escutar (impessoal), tentar (impessoal), compreender (impessoal), amadurecer (impessoal), reconhecer (impessoal), ver (impessoal), sentir (impessoal), julgar (impessoal), procurar (impessoal), entender (impessoal), dialogar (impessoal), expressar (impessoal), aceitar (impessoal), construir (impessoal), contribuir (impessoal), sonhar (impessoal), realizar (impessoal).\n*Justificativa:* A maioria dos infinitivos no texto é impessoal, pois o sujeito é indeterminado ou genérico. Mesmo em \"Para realmente aprender\", embora se possa subentender um 'nós' ou 'você' genérico, a forma não se flexiona, mantendo o caráter impessoal de uma ação geral.\n2. *Viver é uma arte:* \"Viver\" funciona como substantivo (sujeito da oração), equivalente a \"A vida é uma arte\".\n*É preciso estar disposto:* \"estar\" funciona como parte de uma oração subordinada substantiva subjetiva reduzida de infinitivo, atuando como o núcleo do predicado verbal.\n*Para realmente aprender:* \"aprender\" funciona como advérbio (integrante de oração subordinada adverbial final reduzida de infinitivo), indicando finalidade.\n3. *Reescrita possível:* \"Para que realmente se aprenda, é preciso que se esteja disposto a que se erre.\" ou \"Se quisermos realmente aprender, precisamos estar dispostos a errar.\"\n*Impacto:* A versão com verbos conjugados torna a frase mais longa e menos concisa. O infinitivo permite uma construção mais direta e elegante, evitando a repetição de conjunções e pronomes, e mantendo a generalidade da afirmação, o que contribui para a fluidez e economia textual."
+        },
+        {
+          "numero": 2,
+          "data": "24/09/2026",
+          "titulo": "Funções do Infinitivo: Além da Ação Pura",
+          "qtdAulas": "1 aula",
+          "conceito": "Professor, retome a discussão sobre o infinitivo como a forma nominal do verbo, focando agora nas suas diversas funções sintáticas. Explique que o infinitivo não se limita a expressar uma ação de forma neutra; ele pode assumir papéis de substantivo, adjetivo ou advérbio dentro da frase, dependendo do contexto. Apresente exemplos claros: como substantivo (sujeito, objeto direto, complemento nominal), como adjetivo (qualificando um substantivo, como em \"máquina de costurar\") e como advérbio (expressando finalidade, causa, condição, como em \"Ao sair, fechou a porta\"). Aprofunde a ideia de orações reduzidas de infinitivo, que são formas mais econômicas e elegantes de construir períodos compostos, substituindo orações desenvolvidas.",
+          "atividades": "Texto Base Inédito: \"O Desafio de Compreender o Outro\"\n\nTentar compreender o outro é um exercício constante de empatia. Para realmente se conectar, é preciso ouvir atentamente, sem julgar. A capacidade de se colocar no lugar do próximo, de sentir suas dores e celebrar suas alegrias, é o que nos permite construir pontes. Ver o mundo pelos olhos de quem vive realidades diferentes das nossas pode abrir horizontes. É fundamental aprender a respeitar as opiniões divergentes, a dialogar mesmo quando discordar. O ato de perdoar, de deixar para trás ressentimentos, é um passo crucial para a paz interior. É um grande desafio viver em harmonia, mas devemos sempre buscar construir um futuro de colaboração.\n\nDesafio Investigativo 2:\n1. Releia o texto e identifique três ocorrências de verbos no infinitivo que desempenham funções sintáticas diferentes. Para cada um, indique a função e justifique sua resposta.\n2. Compare as frases \"Para realmente se conectar, é preciso ouvir atentamente\" e \"Para que realmente nos conectemos, é preciso que ouçamos atentamente\". Explique as diferenças de estrutura e o impacto na fluidez da leitura.\n3. Transforme a frase \"É essencial que as pessoas colaborem para um mundo melhor\" em uma estrutura com infinitivo, mantendo o sentido original. Qual a vantagem dessa nova formulação?",
+          "socializacao": "Professor, guie a correção das atividades, priorizando a discussão sobre as funções sintáticas identificadas pelos alunos. Peça que justifiquem suas análises, incentivando a troca de ideias e a argumentação. Na comparação das frases, explore a percepção dos alunos sobre a concisão e a formalidade, destacando como o infinitivo pode simplificar a sintaxe. Para a transformação da frase, estimule-os a reconhecer a economia linguística e a elegância que o infinitivo proporciona.",
+          "gabarito": "1. *Exemplos de identificação e função:*\n*   \"Tentar compreender o outro\": \"Tentar\" funciona como sujeito da oração, equivalente a \"A tentativa de compreender...\".\n*   \"Para realmente se conectar\": \"conectar\" funciona como advérbio (integrante de oração subordinada adverbial final reduzida de infinitivo), indicando propósito.\n*   \"Ver o mundo pelos olhos\": \"Ver\" funciona como sujeito da oração, equivalente a \"A visão do mundo...\".\n*   \"O ato de perdoar\": \"perdoar\" funciona como complemento nominal de \"ato\", especificando qual tipo de ato.\n2. *Diferenças e impacto:*\n*   \"Para realmente se conectar, é preciso ouvir atentamente\" (com infinitivo): Mais concisa, fluida e direta. Utiliza orações reduzidas de infinitivo, conferindo maior elegância e economia à linguagem.\n*   \"Para que realmente nos conectemos, é preciso que ouçamos atentamente\" (com verbos conjugados): Mais formal e desenvolvida, com o uso de conjunções (\"que\") e verbos conjugados no subjuntivo. Pode soar um pouco mais \"pesada\" ou menos direta na leitura, pois exige mais elementos sintáticos para expressar a mesma ideia. A versão com infinitivo é geralmente preferida em contextos que buscam concisão e elegância.\n3. *Transformação:* \"É essencial colaborar para um mundo melhor.\" ou \"Colaborar para um mundo melhor é essencial.\"\n*Vantagem:* A nova formulação com o infinitivo é mais concisa, elegante e direta. Ela evita a necessidade de uma oração subordinada desenvolvida (\"que as pessoas colaborem\"), simplificando a estrutura sintática sem perder o sentido, o que facilita a compreensão e melhora a fluidez textual."
+        },
+        {
+          "numero": 3,
+          "data": "28/09/2026",
+          "titulo": "Infinitivo Pessoal e Impessoal: Usos e Concordância",
+          "qtdAulas": "1 aula",
+          "conceito": "Professor, aprofunde a distinção entre infinitivo pessoal e impessoal, um ponto crucial para a",
+          "atividades": "",
+          "socializacao": "",
+          "gabarito": ""
+        }
+      ],
+      "turmaId": 4,
+      "turmaName": "Português 9º Ano",
+      "unitId": 2,
+      "unitLabel": "2ª Unidade",
+      "professorName": "Roni Moreira",
+      "bnccCodes": []
+    },
+    "createdAt": "2026-09-23T22:10:09.229Z",
+    "updatedAt": "2026-09-23T22:10:09.229Z"
+  }
+]

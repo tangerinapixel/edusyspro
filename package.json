@@ -1,0 +1,77 @@
+{
+  "name": "school-admin-dashboard",
+  "private": true,
+  "version": "5.4.5",
+  "description": "Sistema Avançado de Gestão Pedagógica",
+  "author": "Tangerina Pixel",
+  "productName": "EduSys Pro",
+  "main": "electron/main.js",
+  "scripts": {
+    "dev": "concurrently \"vite\" \"wait-on tcp:5178 && cross-env NODE_ENV=development electron .\"",
+    "build": "vite build && electron-builder",
+    "deploy-update": "vite build && node -r dotenv/config ./node_modules/electron-builder/cli.js --publish always && node scratch/publishLatestRelease.js",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
+  },
+  "build": {
+    "appId": "com.tangerinapixel.edusyspro",
+    "productName": "EduSys Pro",
+    "publish": {
+      "provider": "github",
+      "owner": "tangerinapixel",
+      "repo": "edusyspro"
+    },
+    "directories": {
+      "output": "dist_electron"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "assets/**/*",
+      "package.json"
+    ],
+    "asar": true,
+    "win": {
+      "icon": "assets/icon.png",
+      "target": "nsis"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "shortcutName": "EduSys Pro"
+    }
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "@tailwindcss/typography": "^0.5.19",
+    "electron-store": "^8.1.0",
+    "electron-updater": "^6.8.9",
+    "googleapis": "^171.4.0",
+    "jsqr": "^1.4.0",
+    "marked": "^18.0.0",
+    "qrcode": "^1.5.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-markdown": "^10.1.0",
+    "react-router-dom": "^7.14.2"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "@vitejs/plugin-react": "^4.0.3",
+    "autoprefixer": "^10.4.27",
+    "concurrently": "^9.2.1",
+    "cross-env": "^10.1.0",
+    "electron": "^41.2.0",
+    "electron-builder": "^26.8.1",
+    "eslint": "^8.45.0",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.3",
+    "postcss": "^8.5.9",
+    "tailwindcss": "^3.4.19",
+    "vite": "^4.4.5",
+    "wait-on": "^9.0.5"
+  }
+}

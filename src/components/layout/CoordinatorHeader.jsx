@@ -48,7 +48,8 @@ export default function CoordinatorHeader({
     overview: 'Visão Geral da Escola',
     students360: 'Dossiê dos Estudantes 360º',
     teachers: 'Corpo Docente & Turmas',
-    cloud_sync: 'Sincronização & Nuvem'
+    cloud_sync: 'Sincronização & Nuvem',
+    settings: 'Configurações Institucionais'
   };
 
   return (

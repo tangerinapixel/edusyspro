@@ -217,7 +217,7 @@ function UpdaterStatusSection() {
     }
   };
 
-  const displayVersion = currentVersion || '5.4.5';
+  const displayVersion = currentVersion || '5.4.6';
 
   return (
     <div className="mt-4 pt-4 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
@@ -248,7 +248,7 @@ function UpdaterStatusSection() {
               onClick={startDownload}
               className="px-3.5 py-1.5 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-bold text-xs rounded-xl shadow-md shadow-indigo-600/25 transition-all flex items-center gap-1.5 cursor-pointer"
             >
-              <span>⬇️ Baixar v{newVersion || '5.4.5'}</span>
+              <span>⬇️ Baixar v{newVersion || '5.4.6'}</span>
             </button>
             <button
               type="button"
@@ -264,7 +264,7 @@ function UpdaterStatusSection() {
         {isDownloading && (
           <div className="flex items-center gap-2 text-indigo-600 font-bold text-xs bg-indigo-50 px-3 py-1.5 rounded-xl border border-indigo-100">
             <span className="w-3.5 h-3.5 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin"></span>
-            <span>Baixando v{newVersion || '5.4.5'}: {progress}%</span>
+            <span>Baixando v{newVersion || '5.4.6'}: {progress}%</span>
           </div>
         )}
 

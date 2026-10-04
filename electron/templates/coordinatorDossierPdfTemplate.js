@@ -48,6 +48,7 @@ function getScoreBadgeClass(score) {
 function generateCoordinatorStudentDossierHTML(dossier, options = {}) {
     const student = dossier || {};
     const schoolName = options.schoolName || 'SISTEMA DE ENSINO INTEGRADO';
+    const schoolSubtitle = options.schoolSubtitle || 'Dossiê Pedagógico 360º • Coordenação Escolar';
     const coordinatorName = options.coordinatorName || 'Coordenação Pedagógica';
     const unitLabel = options.selectedUnitName || (options.selectedUnit === 'ALL' ? 'Todas as Unidades' : `${options.selectedUnit}ª Unidade`);
     const disciplineFilter = options.selectedDiscipline || 'ALL';
@@ -449,7 +450,7 @@ function generateCoordinatorStudentDossierHTML(dossier, options = {}) {
             <tr>
                 <td class="header-title" style="vertical-align: middle;">
                     <h1>${escapeHTML(schoolName)}</h1>
-                    <p>Dossiê Pedagógico 360º • Coordenação Escolar</p>
+                    <p>${escapeHTML(schoolSubtitle)}</p>
                 </td>
                 <td class="header-meta" style="vertical-align: middle;">
                     <div>Emitido em ${dateStr} às ${timeStr}</div>

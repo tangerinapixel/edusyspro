@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import CoordinatorAuthModal from '../components/coordinator/CoordinatorAuthModal';
 import StudentDossierPage from '../components/coordinator/StudentDossierPage';
 import CoordinatorFilterDropdown from '../components/coordinator/CoordinatorFilterDropdown';
+import CoordinatorSettingsHub from '../components/coordinator/settings/CoordinatorSettingsHub';
 import { useCoordinatorWorkspace } from '../components/layout/CoordinatorLayout';
 
 export default function Coordenacao() {
@@ -1035,6 +1036,20 @@ export default function Coordenacao() {
                 </div>
               </div>
             </div>
+          )}
+
+          {/* ========================================================= */}
+          {/* 5. CONFIGURAÇÕES INSTITUCIONAIS (settings) */}
+          {/* ========================================================= */}
+          {currentNav === 'settings' && (
+            <CoordinatorSettingsHub
+              onProfileChange={(newName) => {
+                setCoordinatorName(newName);
+                if (typeof workspace?.setCoordinatorName === 'function') {
+                  workspace.setCoordinatorName(newName);
+                }
+              }}
+            />
           )}
         </>
       )}

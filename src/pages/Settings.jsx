@@ -148,7 +148,7 @@ export default function Settings() {
       group: 'Segurança & Conta',
       title: 'Licença & Atualizações',
       description: 'Identificador de máquina (MID), plano contratado e atualizador oficial.',
-      badge: 'v5.4.5',
+      badge: 'v5.4.6',
       icon: Icons.Star,
       color: 'from-teal-600 to-emerald-700',
       badgeColor: 'bg-teal-50 text-teal-700 border-teal-200'
@@ -185,7 +185,7 @@ export default function Settings() {
             <div className="flex items-center gap-2 self-start md:self-auto flex-wrap">
               <span className="px-3 py-1.5 bg-slate-100 text-slate-700 border border-slate-200/80 rounded-xl text-xs font-bold flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                <span>v5.4.5</span>
+                <span>v5.4.6</span>
               </span>
               <span className="px-3 py-1.5 bg-indigo-50 text-indigo-700 border border-indigo-100 rounded-xl text-xs font-bold">
                 {currentTurma?.name || 'Turma'} • {currentUnit?.name || '1ª Unidade'}

@@ -28,12 +28,13 @@ async function publishLatest() {
     return;
   }
 
-  const changelog = `### 🚀 EduSys Pro v${pkg.version} - Dossiê Oficial em PDF & Seletores Premium
+  const changelog = `### 🚀 EduSys Pro v${pkg.version} - Central de Configurações da Gestão & Governança Institucional
 
-- **📄 Relatório Oficial Completo em PDF (Dossiê 360º)**: Exportação documental institucional de alta fidelidade diagramada para papel A4, incluindo cabeçalho oficial auditado, matriz de notas, instrumentos de avaliação, histórico de conduta, pareceres pedagógicos compilados de Markdown e área de assinaturas formais.
-- **🎯 Funil Hierárquico Bidimensional (Unidade / Matéria)**: Nova arquitetura de filtragem no Dossiê que permite ao coordenador analisar tanto a visão global integrada quanto focar em matérias específicas, recalculando médias e KPIs em tempo real.
-- **💎 Seletores Premium com Popovers Flutuantes**: Substituição dos controles nativos do navegador por seletores estilizados com badges de categoria (TURMA, UNIDADE, MATÉRIA), micro-animações de foco, rotação de chevron e menus com confirmação visual.
-- **🛡️ Refinamento de UX no Header da Coordenação**: Ajuste contextual para ocultar o campo de busca global quando em visualização do dossiê individual, mantendo o ambiente limpo e focado no aluno.`;
+- **⚙️ Central de Configurações da Gestão Escolar (Coordenação)**: Nova aba dedicada e modular no Painel da Coordenação contendo gestão centralizada de identidade, segurança mestre, nuvem e timbrado institucional.
+- **👤 Perfil & Identidade do Gestor**: Configuração de nome de exibição do coordenador pedagógico e inclusão/remoção de foto de perfil (avatar) com compressão e redimensionamento automático via Canvas (256x256).
+- **🔐 Troca Segura de PIN Institucional & Auto-Lock**: Alteração de PIN mestre com hash criptográfico PBKDF2 (100.000 iterações com salt seguro), validação estrita de senha atual e política de auto-lock por inatividade customizável (5, 15, 30 ou 60 minutos).
+- **☁️ Gestão da Conta Google Drive**: Visualização em tempo real do status de conexão na nuvem, alternância segura de conta Google institucional e opção de desconexão.
+- **🏛️ Timbrado Institucional & Dossiê em PDF**: Definição oficial de nome da escola e subtítulo/slogan com prévia em tempo real de folha A4 e sincronização automática com o motor de exportação do Dossiê 360º em PDF.`;
 
   console.log(`Publicando release ${draft.tag_name || targetTag} (ID: ${draft.id})...`);
   const patchRes = await fetch(`https://api.github.com/repos/tangerinapixel/edusyspro/releases/${draft.id}`, {

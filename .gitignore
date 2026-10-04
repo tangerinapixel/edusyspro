@@ -35,4 +35,5 @@ scripts/chaves/private.key
 license_store.json
 .env
 .env.local
-
+# Cofre da Coordenação (PINs, auth_meta, credenciais locais)
+coordinator_vault/

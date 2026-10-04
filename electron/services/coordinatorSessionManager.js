@@ -252,6 +252,15 @@ function getActiveVaultKey() {
     return activeSession.vaultKey;
 }
 
+/**
+ * Atualiza o nome do coordenador na sessão ativa em memória.
+ */
+function updateActiveSessionName(newName) {
+    if (activeSession && newName) {
+        activeSession.coordinatorName = String(newName).trim();
+    }
+}
+
 module.exports = {
     setEventBroadcaster,
     isCoordinatorSetup,
@@ -261,5 +270,6 @@ module.exports = {
     isSessionActive,
     assertCoordinatorAccess,
     getStatus,
-    getActiveVaultKey
+    getActiveVaultKey,
+    updateActiveSessionName
 };

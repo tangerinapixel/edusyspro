@@ -159,6 +159,12 @@ contextBridge.exposeInMainWorld('electronAPI', {
     coordinatorIngestLocalTeacher: () => ipcRenderer.invoke('coordinator:ingestLocalTeacher'),
     coordinatorImportBackupFile: () => ipcRenderer.invoke('coordinator:importBackupFile'),
     coordinatorResolveStudent: (params) => ipcRenderer.invoke('coordinator:resolveStudent', params),
+    coordinatorGetSettings: () => ipcRenderer.invoke('coordinator:getSettings'),
+    coordinatorUpdateProfile: (params) => ipcRenderer.invoke('coordinator:updateProfile', params),
+    coordinatorChangePin: (params) => ipcRenderer.invoke('coordinator:changePin', params),
+    coordinatorUpdatePreferences: (params) => ipcRenderer.invoke('coordinator:updatePreferences', params),
+    coordinatorSwitchDriveAccount: () => ipcRenderer.invoke('coordinator:switchDriveAccount'),
+    coordinatorDisconnectDrive: () => ipcRenderer.invoke('coordinator:disconnectDrive'),
     onCoordinatorSessionLocked: (callback) => {
         const handler = (_, data) => {
             if (typeof callback === 'function') callback(data);

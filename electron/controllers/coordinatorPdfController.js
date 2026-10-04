@@ -15,6 +15,7 @@ try {
     dbAPI = { getSettings: () => ({}) };
 }
 const coordinatorSessionManager = require('../services/coordinatorSessionManager');
+const coordinatorSettingsService = require('../services/coordinatorSettingsService');
 const { generateCoordinatorStudentDossierHTML } = require('../templates/coordinatorDossierPdfTemplate');
 
 function registerCoordinatorPdfHandlers(getMainWindow) {
@@ -28,12 +29,14 @@ function registerCoordinatorPdfHandlers(getMainWindow) {
                 throw new Error('Dados do dossiê não informados para exportação.');
             }
 
-            const settings = dbAPI.getSettings ? dbAPI.getSettings() : {};
+            const coordSettings = coordinatorSettingsService.getSettings ? coordinatorSettingsService.getSettings() : {};
+            const teacherSettings = dbAPI.getSettings ? dbAPI.getSettings() : {};
             const sessionStatus = coordinatorSessionManager.getStatus ? coordinatorSessionManager.getStatus() : {};
 
             const options = {
-                schoolName: settings.school_name || 'SISTEMA INTEGRADO DE ENSINO',
-                coordinatorName: sessionStatus.coordinatorName || 'Coordenação Pedagógica',
+                schoolName: coordSettings.schoolName || teacherSettings.school_name || 'SISTEMA INTEGRADO DE ENSINO',
+                schoolSubtitle: coordSettings.schoolSubtitle || 'Dossiê Pedagógico 360º • Coordenação Escolar',
+                coordinatorName: sessionStatus.coordinatorName || coordSettings.coordinatorName || 'Coordenação Pedagógica',
                 selectedUnit: selectedUnit || 'ALL',
                 selectedUnitName: selectedUnitName || (selectedUnit === 'ALL' ? 'Todas as Unidades' : `${selectedUnit}ª Unidade`),
                 selectedDiscipline: selectedDiscipline || 'ALL'

@@ -15,6 +15,7 @@ const { registerLicenseHandlers } = require('./controllers/licenseController');
 const { registerCoordinatorHandlers } = require('./controllers/coordinatorController');
 const { registerCoordinatorUnitDossierHandlers } = require('./controllers/coordinatorUnitDossierController');
 const { registerCoordinatorPdfHandlers } = require('./controllers/coordinatorPdfController');
+const { registerCoordinatorSettingsHandlers } = require('./controllers/coordinatorSettingsController');
 const { initAutoUpdater } = require('./services/updateService');
 
 let mainWindow;
@@ -67,6 +68,7 @@ app.whenReady().then(() => {
     registerCoordinatorHandlers(getMainWindow);
     registerCoordinatorUnitDossierHandlers();
     registerCoordinatorPdfHandlers(getMainWindow);
+    registerCoordinatorSettingsHandlers(getMainWindow);
     initAutoUpdater(getMainWindow);
 
     createWindow();

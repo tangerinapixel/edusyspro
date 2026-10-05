@@ -40,12 +40,32 @@ function registerCoordinatorHandlers(getMainWindow) {
         }
     });
 
-    // 2. Configurar PIN inicial ou alterar PIN
+    // 2. Configurar PIN inicial (Apenas primeiro acesso - protegido por Zero-Bypass)
     ipcMain.handle('coordinator:setupPin', async (_, { pin, coordinatorName }) => {
         try {
             return coordinatorSessionManager.setupCoordinatorPin(pin, coordinatorName);
         } catch (err) {
             console.error('[CoordinatorController] Erro ao configurar PIN:', err.message);
+            return { success: false, error: err.message };
+        }
+    });
+
+    // 2.1 Alterar PIN exigindo PIN atual (Zero-Bypass pré-login)
+    ipcMain.handle('coordinator:changePinWithOldPin', async (_, { currentPin, newPin }) => {
+        try {
+            return coordinatorSessionManager.changePinWithOldPin({ currentPin, newPin });
+        } catch (err) {
+            console.error('[CoordinatorController] Erro ao alterar PIN:', err.message);
+            return { success: false, error: err.message };
+        }
+    });
+
+    // 2.2 Recuperar PIN via Chave de Emergência (Emergency Recovery Key)
+    ipcMain.handle('coordinator:recoverPin', async (_, { recoveryKey, newPin }) => {
+        try {
+            return coordinatorSessionManager.recoverPinWithKey({ recoveryKey, newPin });
+        } catch (err) {
+            console.error('[CoordinatorController] Erro ao recuperar PIN:', err.message);
             return { success: false, error: err.message };
         }
     });

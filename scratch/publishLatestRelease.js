@@ -32,6 +32,8 @@ async function publishLatest() {
 
 - **🏛️ Governança Escolar & Unificação Canônica Perfeita**: Saneamento completo do cofre da coordenação com purga automática prévia na reingestão de snapshots docentes, eliminando registros órfãos ou excluídos e consolidando as matrículas com precisão matemática.
 - **🛡️ Isolamento Estrito de Unidade Letiva nas Médias Globais**: Cálculo da Média Geral da Escola e Dossiê 360º do Estudante protegidos contra vazamento inter-trimestral, contabilizando notas, atividades e penalidades exclusivamente na unidade de referência ativa.
+- **📚 Histórico Completo & Transição Fluida de Unidades**: Rastreio granular de lições e atividades por unidade letiva, garantindo acesso completo ao histórico da 1ª e 2ª Unidade e continuidade de lançamentos na 3ª Unidade.
+- **🔐 Segurança Nível SaaS na Gestão de Acessos**: Redefinição de senha e PIN do coordenador com exigência de re-autenticação prévia da credencial atual e proteção de sessão.
 - **✨ Tolerância a Variações Cadastrais & Chave Canônica Robusta**: Resolvedor de identidade multi-docente aprimorado com tolerância a preposições da língua portuguesa, garantindo unificação impecável de prontuários em diferentes disciplinas.
 - **🎨 Estabilidade Visual e Identidade Preservada**: Ícones vetoriais em alta fidelidade na autenticação e nas barras laterais, e ícone corporativo nativo do Windows (.exe) no instalador e Área de Trabalho.
 - **🛡️ 100% Homologado em Testes de Não-Regressão**: Suíte completa de testes aprovada garantindo total estabilidade do banco de dados e diários de classe.`;

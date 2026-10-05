@@ -29,7 +29,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
     updateOccurrenceType: (id, data) => ipcRenderer.invoke('db:updateOccurrenceType', id, data),
     deleteOccurrenceType: (id) => ipcRenderer.invoke('db:deleteOccurrenceType', id),
 
-    getActivities: () => ipcRenderer.invoke('db:getActivities'),
+    getActivities: (unitId) => ipcRenderer.invoke('db:getActivities', unitId),
     toggleActivity: (stuId, date) => ipcRenderer.invoke('db:toggleActivity', stuId, date),
     getActivityTopics: (turmaId, unitId) => ipcRenderer.invoke('db:getActivityTopics', turmaId, unitId),
     saveActivityTopic: (date, topic, turmaId) => ipcRenderer.invoke('db:saveActivityTopic', date, topic, turmaId),
@@ -162,6 +162,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
     coordinatorGetSettings: () => ipcRenderer.invoke('coordinator:getSettings'),
     coordinatorUpdateProfile: (params) => ipcRenderer.invoke('coordinator:updateProfile', params),
     coordinatorChangePin: (params) => ipcRenderer.invoke('coordinator:changePin', params),
+    coordinatorChangePinWithOldPin: (params) => ipcRenderer.invoke('coordinator:changePinWithOldPin', params),
+    coordinatorRecoverPin: (params) => ipcRenderer.invoke('coordinator:recoverPin', params),
     coordinatorUpdatePreferences: (params) => ipcRenderer.invoke('coordinator:updatePreferences', params),
     coordinatorSwitchDriveAccount: () => ipcRenderer.invoke('coordinator:switchDriveAccount'),
     coordinatorDisconnectDrive: () => ipcRenderer.invoke('coordinator:disconnectDrive'),

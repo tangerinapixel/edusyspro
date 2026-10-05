@@ -19,10 +19,76 @@ const vaultBaseDir = isDev
 
 const authMetaFilePath = path.join(vaultBaseDir, 'auth_meta.json');
 const INACTIVITY_TIMEOUT_MS = 15 * 60 * 1000; // 15 minutos
+const MAX_FAILED_ATTEMPTS = 5;
+const LOCKOUT_TIME_MS = 3 * 60 * 1000; // 3 minutos
 
 let activeSession = null;
 let inactivityTimer = null;
 let eventBroadcaster = null;
+
+// Controle de Rate Limiting Anti-Brute Force em memória
+let failedAttempts = 0;
+let lockoutUntil = null;
+
+function checkRateLimit() {
+    if (lockoutUntil) {
+        const now = Date.now();
+        if (now < lockoutUntil) {
+            const remainingSeconds = Math.ceil((lockoutUntil - now) / 1000);
+            return {
+                blocked: true,
+                remainingSeconds,
+                error: `Acesso temporariamente bloqueado por excesso de tentativas. Aguarde ${remainingSeconds}s.`
+            };
+        }
+        // Expirou o tempo de bloqueio: libera
+        failedAttempts = 0;
+        lockoutUntil = null;
+    }
+    return { blocked: false, remainingSeconds: 0 };
+}
+
+function recordFailedAttempt() {
+    failedAttempts++;
+    if (failedAttempts >= MAX_FAILED_ATTEMPTS) {
+        lockoutUntil = Date.now() + LOCKOUT_TIME_MS;
+        const remainingSeconds = Math.ceil(LOCKOUT_TIME_MS / 1000);
+        return {
+            blocked: true,
+            attemptsLeft: 0,
+            remainingSeconds,
+            error: `Limite de tentativas excedido. Cofre bloqueado temporariamente por ${remainingSeconds} segundos.`
+        };
+    }
+    const attemptsLeft = MAX_FAILED_ATTEMPTS - failedAttempts;
+    return {
+        blocked: false,
+        attemptsLeft,
+        remainingSeconds: 0,
+        error: `Credencial incorreta. Restam ${attemptsLeft} tentativa(s) antes do bloqueio temporário.`
+    };
+}
+
+function resetRateLimit() {
+    failedAttempts = 0;
+    lockoutUntil = null;
+}
+
+/**
+ * Gera uma chave mestre de recuperação de emergência (16 chars alfanuméricos em 4 blocos).
+ */
+function generateRecoveryKey() {
+    const raw = crypto.randomBytes(8).toString('hex').toUpperCase();
+    return `${raw.slice(0, 4)}-${raw.slice(4, 8)}-${raw.slice(8, 12)}-${raw.slice(12, 16)}`;
+}
+
+/**
+ * Hash da chave de recuperação com PBKDF2 (100.000 iterações com SHA-512).
+ */
+function hashRecoveryKey(key, salt) {
+    const cleanKey = String(key || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+    return crypto.pbkdf2Sync(cleanKey, salt, 100000, 64, 'sha512').toString('hex');
+}
 
 function ensureVaultDir() {
     try {
@@ -104,11 +170,17 @@ function isCoordinatorSetup() {
 }
 
 /**
- * Configura ou altera o PIN do Gestor.
+ * Configuração Inicial do PIN da Coordenação (Blindada contra sobrescrita não autorizada).
+ * Gera par de chaves e a Emergency Recovery Key para contingência offline.
  * @param {string} newPin Novo PIN (mínimo 4 caracteres)
- * @param {string} coordinatorName Nome opcional do gestor
+ * @param {string} coordinatorName Nome do gestor
+ * @param {object} options Opções avançadas ({ force: boolean } para ambiente de testes controlados)
  */
-function setupCoordinatorPin(newPin, coordinatorName = '') {
+function setupCoordinatorPin(newPin, coordinatorName = '', { force = false } = {}) {
+    if (isCoordinatorSetup() && !force) {
+        throw new Error('O cofre institucional já foi configurado. Não é permitido criar novo PIN via setup inicial.');
+    }
+
     const cleanPin = String(newPin || '').trim();
     if (cleanPin.length < 4) {
         throw new Error('O PIN da coordenação deve ter no mínimo 4 dígitos.');
@@ -117,16 +189,151 @@ function setupCoordinatorPin(newPin, coordinatorName = '') {
     const salt = crypto.randomBytes(16).toString('hex');
     const pinHash = hashPin(cleanPin, salt);
 
+    const recoveryKey = generateRecoveryKey();
+    const recoverySalt = crypto.randomBytes(16).toString('hex');
+    const recoveryHash = hashRecoveryKey(recoveryKey, recoverySalt);
+
     const payload = {
         configured_at: new Date().toISOString(),
         coordinator_name: String(coordinatorName || '').trim(),
         salt,
         pin_hash: pinHash,
-        version: '2.1'
+        recovery_salt: recoverySalt,
+        recovery_hash: recoveryHash,
+        version: '2.2'
     };
 
     writeAuthMeta(payload);
-    return { success: true };
+    resetRateLimit();
+
+    return { 
+        success: true, 
+        recoveryKey,
+        coordinatorName: payload.coordinator_name 
+    };
+}
+
+/**
+ * Altera o PIN exigindo obrigatoriamente a validação do PIN atual (Zero-Bypass).
+ * Protegido contra brute force com timingSafeEqual.
+ */
+function changePinWithOldPin({ currentPin, newPin }) {
+    const rateCheck = checkRateLimit();
+    if (rateCheck.blocked) {
+        return { success: false, ...rateCheck };
+    }
+
+    const cleanNewPin = String(newPin || '').trim();
+    if (cleanNewPin.length < 4) {
+        return { success: false, error: 'O novo PIN deve conter no mínimo 4 caracteres.' };
+    }
+
+    const auth = readAuthMeta();
+    if (!auth || !auth.pin_hash || !auth.salt) {
+        return { success: false, error: 'Cofre institucional não configurado previamente.' };
+    }
+
+    const calculatedCurrent = hashPin(String(currentPin || ''), auth.salt);
+    const isCurrentValid = crypto.timingSafeEqual(
+        Buffer.from(calculatedCurrent, 'utf8'),
+        Buffer.from(auth.pin_hash, 'utf8')
+    );
+
+    if (!isCurrentValid) {
+        const rate = recordFailedAttempt();
+        return { 
+            success: false, 
+            error: rate.error, 
+            blocked: rate.blocked, 
+            remainingSeconds: rate.remainingSeconds,
+            attemptsLeft: rate.attemptsLeft 
+        };
+    }
+
+    resetRateLimit();
+
+    const newSalt = crypto.randomBytes(16).toString('hex');
+    const newPinHash = hashPin(cleanNewPin, newSalt);
+
+    auth.salt = newSalt;
+    auth.pin_hash = newPinHash;
+    auth.last_pin_change = new Date().toISOString();
+
+    writeAuthMeta(auth);
+
+    return { 
+        success: true, 
+        message: 'PIN institucional alterado com sucesso.' 
+    };
+}
+
+/**
+ * Recuperação de Emergência via Recovery Key (Padrão Corporativo SaaS).
+ * Redefine o PIN e rotaciona a própria Chave Mestre de Recuperação.
+ */
+function recoverPinWithKey({ recoveryKey, newPin }) {
+    const rateCheck = checkRateLimit();
+    if (rateCheck.blocked) {
+        return { success: false, ...rateCheck };
+    }
+
+    const cleanNewPin = String(newPin || '').trim();
+    if (cleanNewPin.length < 4) {
+        return { success: false, error: 'O novo PIN deve conter no mínimo 4 dígitos.' };
+    }
+
+    const auth = readAuthMeta();
+    if (!auth || !auth.pin_hash) {
+        return { success: false, error: 'Cofre institucional não inicializado.' };
+    }
+
+    if (!auth.recovery_hash || !auth.recovery_salt) {
+        return { 
+            success: false, 
+            error: 'Este cofre foi criado em versão anterior sem Chave de Recuperação registrada. Entre com seu PIN atual para renovar a segurança.' 
+        };
+    }
+
+    const calculatedKeyHash = hashRecoveryKey(recoveryKey, auth.recovery_salt);
+    const isKeyValid = crypto.timingSafeEqual(
+        Buffer.from(calculatedKeyHash, 'utf8'),
+        Buffer.from(auth.recovery_hash, 'utf8')
+    );
+
+    if (!isKeyValid) {
+        const rate = recordFailedAttempt();
+        return { 
+            success: false, 
+            error: rate.blocked ? rate.error : `Chave de emergência inválida. Restam ${rate.attemptsLeft} tentativa(s).`, 
+            blocked: rate.blocked, 
+            remainingSeconds: rate.remainingSeconds,
+            attemptsLeft: rate.attemptsLeft 
+        };
+    }
+
+    resetRateLimit();
+
+    const newSalt = crypto.randomBytes(16).toString('hex');
+    const newPinHash = hashPin(cleanNewPin, newSalt);
+
+    const newRecoveryKey = generateRecoveryKey();
+    const newRecoverySalt = crypto.randomBytes(16).toString('hex');
+    const newRecoveryHash = hashRecoveryKey(newRecoveryKey, newRecoverySalt);
+
+    auth.salt = newSalt;
+    auth.pin_hash = newPinHash;
+    auth.recovery_salt = newRecoverySalt;
+    auth.recovery_hash = newRecoveryHash;
+    auth.last_pin_change = new Date().toISOString();
+    auth.recovered_at = new Date().toISOString();
+
+    writeAuthMeta(auth);
+
+    return { 
+        success: true, 
+        message: 'PIN redefinido com sucesso via Chave de Emergência.',
+        newRecoveryKey
+    };
 }
 
 /**
@@ -146,9 +353,20 @@ function resetInactivityTimer() {
 
 /**
  * Valida o PIN fornecido e cria a sessão em memória se válido.
+ * Aplica proteção de Rate Limiting contra tentativas sucessivas de adivinhação.
  * @param {string} pin PIN digitado pelo usuário
  */
 function verifyAndElevate(pin) {
+    const rateCheck = checkRateLimit();
+    if (rateCheck.blocked) {
+        return { 
+            success: false, 
+            blocked: true, 
+            remainingSeconds: rateCheck.remainingSeconds, 
+            error: rateCheck.error 
+        };
+    }
+
     const meta = readAuthMeta();
     if (!meta || !meta.pin_hash || !meta.salt) {
         return {
@@ -162,8 +380,17 @@ function verifyAndElevate(pin) {
     const isValid = crypto.timingSafeEqual(Buffer.from(calculated, 'utf8'), Buffer.from(meta.pin_hash, 'utf8'));
 
     if (!isValid) {
-        return { success: false, error: 'PIN de acesso incorreto.' };
+        const rate = recordFailedAttempt();
+        return { 
+            success: false, 
+            error: rate.error, 
+            blocked: rate.blocked, 
+            remainingSeconds: rate.remainingSeconds,
+            attemptsLeft: rate.attemptsLeft 
+        };
     }
+
+    resetRateLimit();
 
     // Deriva chave efêmera de cofre via PBKDF2 (32 bytes para AES-256)
     const vaultKey = crypto.pbkdf2Sync(String(pin), meta.salt, 100000, 32, 'sha512');
@@ -235,12 +462,18 @@ function assertCoordinatorAccess() {
 function getStatus() {
     const isSetup = isCoordinatorSetup();
     const isActive = isSessionActive();
+    const rateCheck = checkRateLimit();
 
     return {
         isSetup,
         isElevated: isActive,
         coordinatorName: activeSession?.coordinatorName || (readAuthMeta()?.coordinator_name || ''),
-        expiresAt: activeSession?.expiresAt || null
+        expiresAt: activeSession?.expiresAt || null,
+        rateLimit: {
+            blocked: rateCheck.blocked,
+            remainingSeconds: rateCheck.remainingSeconds,
+            failedAttempts
+        }
     };
 }
 
@@ -265,11 +498,15 @@ module.exports = {
     setEventBroadcaster,
     isCoordinatorSetup,
     setupCoordinatorPin,
+    changePinWithOldPin,
+    recoverPinWithKey,
     verifyAndElevate,
     lockSession,
     isSessionActive,
     assertCoordinatorAccess,
     getStatus,
     getActiveVaultKey,
-    updateActiveSessionName
+    updateActiveSessionName,
+    checkRateLimit,
+    resetRateLimit
 };

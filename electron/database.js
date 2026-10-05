@@ -652,9 +652,9 @@ const dbAPI = {
     },
 
     // Atividades / Lição de Casa
-    getActivities: () => {
+    getActivities: (unitId) => {
         const activeUnit = (dbCache.units || []).find(u => u.is_active);
-        const activeUnitId = activeUnit?.id ?? 1;
+        const activeUnitId = (unitId !== undefined && unitId !== null) ? parseInt(unitId) : (activeUnit?.id ?? 1);
         return (dbCache.activities || []).filter(a => a.unit_id === activeUnitId);
     },
     toggleActivity: (studentId, date) => {

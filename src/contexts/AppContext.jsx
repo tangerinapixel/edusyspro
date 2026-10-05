@@ -550,7 +550,7 @@ export const AppProvider = ({ children }) => {
       window.electronAPI.getStudentComputedGrades(activeTurmaId, resolvedUnitId).then(setComputedGrades);
 
       const [acts, topics] = await Promise.all([
-        window.electronAPI.getActivities(),
+        window.electronAPI.getActivities(resolvedUnitId),
         window.electronAPI.getActivityTopics(activeTurmaId, resolvedUnitId)
       ]);
 

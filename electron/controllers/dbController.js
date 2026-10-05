@@ -38,7 +38,7 @@ function registerDbHandlers() {
     ipcMain.handle('db:deleteOccurrenceType', (_, id) => dbAPI.deleteOccurrenceType(id));
 
     // Atividades
-    ipcMain.handle('db:getActivities', () => dbAPI.getActivities());
+    ipcMain.handle('db:getActivities', (_, unitId) => dbAPI.getActivities(unitId));
     ipcMain.handle('db:toggleActivity', (_, stuId, date) => dbAPI.toggleActivity(stuId, date));
     ipcMain.handle('db:getActivityTopics', (_, turmaId, unitId) => dbAPI.getActivityTopics(turmaId, unitId));
     ipcMain.handle('db:saveActivityTopic', (_, date, topic, turmaId) => dbAPI.saveActivityTopic(date, topic, turmaId));

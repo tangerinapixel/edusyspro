@@ -8,6 +8,7 @@ const crypto = require('crypto');
 const path = require('path');
 const fs = require('fs');
 const { app } = require('electron');
+const sessionManager = require('./coordinatorSessionManager');
 
 const isDev = !app || !app.isPackaged;
 const vaultBaseDir = isDev
@@ -148,44 +149,24 @@ function updateProfile({ name, avatar }) {
 
 /**
  * Altera o PIN de acesso da Coordenação com validação do PIN atual.
+ * Delega para sessionManager.changePinWithOldPin para garantir Zero-Bypass e Rate Limiting.
  */
 function changePin({ currentPin, newPin }) {
-    if (!newPin || String(newPin).length < 4) {
-        return { success: false, error: 'O novo PIN deve conter no mínimo 4 caracteres numéricos.' };
+    const result = sessionManager.changePinWithOldPin({ currentPin, newPin });
+    if (!result.success) {
+        return result;
     }
 
-    const auth = readAuthMeta();
-    if (!auth || !auth.pin_hash || !auth.salt) {
-        return { success: false, error: 'Cofre institucional não configurado previamente.' };
+    try {
+        const settings = readSettings();
+        settings.last_pin_change = new Date().toISOString();
+        writeSettings(settings);
+    } catch (e) {
+        console.warn('[CoordinatorSettingsService] Aviso ao atualizar settings após troca de PIN:', e.message);
     }
 
-    // 1. Valida o PIN atual via timingSafeEqual
-    const calculatedCurrent = hashPin(currentPin, auth.salt);
-    const isCurrentValid = crypto.timingSafeEqual(
-        Buffer.from(calculatedCurrent, 'utf8'),
-        Buffer.from(auth.pin_hash, 'utf8')
-    );
-
-    if (!isCurrentValid) {
-        return { success: false, error: 'O PIN atual informado está incorreto.' };
-    }
-
-    // 2. Gera novo par Salt / Hash
-    const newSalt = crypto.randomBytes(16).toString('hex');
-    const newHash = hashPin(newPin, newSalt);
-
-    auth.salt = newSalt;
-    auth.pin_hash = newHash;
-    auth.last_pin_change = new Date().toISOString();
-    writeAuthMeta(auth);
-
-    // 3. Atualiza registro em settings
-    const settings = readSettings();
-    settings.last_pin_change = auth.last_pin_change;
-    writeSettings(settings);
-
-    console.log('[CoordinatorSettingsService] PIN da coordenação atualizado com sucesso.');
-    return { success: true, message: 'PIN institucional alterado com sucesso.' };
+    console.log('[CoordinatorSettingsService] PIN da coordenação atualizado com sucesso via sessionManager.');
+    return result;
 }
 
 /**

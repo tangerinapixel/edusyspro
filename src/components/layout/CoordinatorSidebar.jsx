@@ -81,11 +81,9 @@ export default function CoordinatorSidebar({ activeNav = 'overview', onNavChange
       {/* Brand Header */}
       <div className="px-5 py-6 relative z-10 flex-shrink-0">
         <div className="flex items-center gap-3 mb-2">
-          <img 
-            src="/icon.png" 
-            alt="EduSys Gestão Logo" 
-            className="w-9 h-9 rounded-xl shadow-lg shadow-amber-500/20 object-contain shrink-0 bg-slate-900/50 p-0.5 border border-slate-800" 
-          />
+          <div className="w-9 h-9 bg-gradient-to-tr from-amber-500 to-orange-400 rounded-xl shadow-lg shadow-amber-500/30 flex items-center justify-center text-white text-lg font-bold">
+            C
+          </div>
           <h1 className="text-xl font-bold text-white tracking-tight flex items-center gap-1.5">
             EduSys<span className="text-amber-400">Gestão</span>
           </h1>

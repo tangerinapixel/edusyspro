@@ -162,7 +162,7 @@ async function uploadBackup(localData) {
         const hash = crypto.createHash('sha256').update(payload, 'utf8').digest('hex');
         const envelope = JSON.stringify({
             _edusys: true,
-            app_version: '5.5.0',
+            app_version: '5.5.1',
             uploaded_at: new Date().toISOString(),
             hash,
             payload

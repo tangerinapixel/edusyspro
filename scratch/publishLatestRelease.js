@@ -28,14 +28,13 @@ async function publishLatest() {
     return;
   }
 
-  const changelog = `### 🚀 EduSys Pro v${pkg.version} - Estabilidade Visual no Login & Refinamento de Interface
+  const changelog = `### 🚀 EduSys Pro v${pkg.version} - Inteligência da Governança Escolar & Blindagem de Dados
 
-- **🎨 Estabilidade Visual 100% Imune a Falhas no Login & Navegação**: Implementação de ícones vetoriais de alta fidelidade com degradê dinâmico (Professor e Coordenação) na tela de autenticação e nas barras laterais, eliminando o erro de imagem quebrada em ambientes desktop empacotados.
-- **✨ Identidade Oficial Preservada no Windows**: Ícone executável nativo em alta resolução no atalho da Área de Trabalho, barra de tarefas e instalador oficial (.exe).
-- **🧠 Blindagem do Motor de Inteligência Artificial (Circuit Breaker Imediato)**: Detecção ultrarrápida de credenciais com interrupção instantânea (3ms), eliminando travamentos de tela e loops de repetição.
-- **⚡ Calibração de Modelos Google Gemini**: Priorização do modelo de alta velocidade e estabilidade (\`gemini-3.5-flash\`), com failover inteligente automático em erros 404 e 503.
-- **💡 Experiência Acolhedora & Atalho "Chave IA"**: Acesso rápido às configurações de IA com um clique e mensagens orientadoras para o corpo docente.
-- **🛡️ 100% Homologado em Testes de Não-Regressão**: Suíte completa de testes aprovada garantindo total integridade de banco de dados e dados pedagógicos.`;
+- **🏛️ Governança Escolar & Unificação Canônica Perfeita**: Saneamento completo do cofre da coordenação com purga automática prévia na reingestão de snapshots docentes, eliminando registros órfãos ou excluídos e consolidando as matrículas com precisão matemática.
+- **🛡️ Isolamento Estrito de Unidade Letiva nas Médias Globais**: Cálculo da Média Geral da Escola e Dossiê 360º do Estudante protegidos contra vazamento inter-trimestral, contabilizando notas, atividades e penalidades exclusivamente na unidade de referência ativa.
+- **✨ Tolerância a Variações Cadastrais & Chave Canônica Robusta**: Resolvedor de identidade multi-docente aprimorado com tolerância a preposições da língua portuguesa, garantindo unificação impecável de prontuários em diferentes disciplinas.
+- **🎨 Estabilidade Visual e Identidade Preservada**: Ícones vetoriais em alta fidelidade na autenticação e nas barras laterais, e ícone corporativo nativo do Windows (.exe) no instalador e Área de Trabalho.
+- **🛡️ 100% Homologado em Testes de Não-Regressão**: Suíte completa de testes aprovada garantindo total estabilidade do banco de dados e diários de classe.`;
 
   console.log(`Publicando release ${draft.tag_name || targetTag} (ID: ${draft.id})...`);
   const patchRes = await fetch(`https://api.github.com/repos/tangerinapixel/edusyspro/releases/${draft.id}`, {

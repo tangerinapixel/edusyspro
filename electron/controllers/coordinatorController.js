@@ -82,11 +82,11 @@ function registerCoordinatorHandlers(getMainWindow) {
     });
 
     // 6. Dossiê 360º de Aluno Específico - Guarda Server-Side
-    ipcMain.handle('coordinator:getStudent360', async (_, { canonicalId }) => {
+    ipcMain.handle('coordinator:getStudent360', async (_, { canonicalId, unitId } = {}) => {
         try {
             coordinatorSessionManager.assertCoordinatorAccess();
             if (!canonicalId) throw new Error('ID canônico do estudante não informado.');
-            return coordinatorService.getStudent360(canonicalId);
+            return coordinatorService.getStudent360(canonicalId, unitId);
         } catch (err) {
             console.error('[CoordinatorController] Erro ao obter dossiê 360º:', err.message);
             return { success: false, error: err.message };
@@ -212,6 +212,17 @@ function registerCoordinatorHandlers(getMainWindow) {
             });
         } catch (err) {
             console.error('[CoordinatorController] Erro ao importar arquivo:', err.message);
+            return { success: false, error: err.message };
+        }
+    });
+
+    // 15. Reconstrução e Saneamento do Cofre (Expurgo de Zumbis e Sincronização)
+    ipcMain.handle('coordinator:rebuildVaultIndex', async () => {
+        try {
+            coordinatorSessionManager.assertCoordinatorAccess();
+            return coordinatorService.rebuildVaultIndex();
+        } catch (err) {
+            console.error('[CoordinatorController] Erro ao reconstruir cofre:', err.message);
             return { success: false, error: err.message };
         }
     });

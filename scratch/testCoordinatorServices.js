@@ -39,6 +39,24 @@ async function runTests() {
 
     // ─── TESTE 3: Ingestão de Snapshot com Sharding e Cache LRU (coordinatorService) ───
     console.log("\n[TESTE 3] Ingestão de Snapshot em Shards Particionados...");
+    try {
+        const manifestFile = path.join(process.cwd(), 'coordinator_vault', 'manifest.json');
+        if (fs.existsSync(manifestFile)) {
+            const m = JSON.parse(fs.readFileSync(manifestFile, 'utf8'));
+            if (m.unlinked_sources) {
+                delete m.unlinked_sources['prof_cab526a87c63'];
+                delete m.unlinked_sources['prof_ab27350f6243'];
+            }
+            delete m.teachers_index['prof_cab526a87c63'];
+            delete m.teachers_index['prof_ab27350f6243'];
+            fs.writeFileSync(manifestFile, JSON.stringify(m, null, 2), 'utf8');
+        }
+        const s1 = path.join(process.cwd(), 'coordinator_vault', 'teachers', 'prof_cab526a87c63.json');
+        const s2 = path.join(process.cwd(), 'coordinator_vault', 'teachers', 'prof_ab27350f6243.json');
+        if (fs.existsSync(s1)) fs.unlinkSync(s1);
+        if (fs.existsSync(s2)) fs.unlinkSync(s2);
+    } catch (_) {}
+
     const mockTeacherPayload1 = {
         auth: { user_name: "Profª Ana Paula" },
         turmas: [{ id: 1, name: "6º Ano A", discipline: "Língua Portuguesa" }],
@@ -132,12 +150,9 @@ async function runTests() {
     console.log("  ✓ Teste 6 passou: Guarda Server-Side bloqueou chamadas após trancamento da sessão.");
 
     // ─── CLEANUP ───
-    console.log("\n[CLEANUP] Limpando ambiente de teste...");
-    const vaultDir = path.join(__dirname, '..', 'coordinator_vault');
-    if (fs.existsSync(vaultDir)) {
-        fs.rmSync(vaultDir, { recursive: true, force: true });
-    }
-    console.log("  ✓ Ambiente limpo com sucesso.");
+    console.log("\n[CLEANUP] Sessão de teste finalizada com segurança.");
+    sessionManager.lockSession();
+    console.log("  ✓ Sessão trancada e ambiente seguro.");
 
     console.log("\n================================================================");
     console.log(" TODOS OS TESTES DA ETAPA 1 FORAM EXECUTADOS COM 100% DE SUCESSO!");

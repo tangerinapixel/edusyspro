@@ -165,6 +165,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
     coordinatorUpdatePreferences: (params) => ipcRenderer.invoke('coordinator:updatePreferences', params),
     coordinatorSwitchDriveAccount: () => ipcRenderer.invoke('coordinator:switchDriveAccount'),
     coordinatorDisconnectDrive: () => ipcRenderer.invoke('coordinator:disconnectDrive'),
+    coordinatorRebuildVaultIndex: () => ipcRenderer.invoke('coordinator:rebuildVaultIndex'),
     onCoordinatorSessionLocked: (callback) => {
         const handler = (_, data) => {
             if (typeof callback === 'function') callback(data);

@@ -23,6 +23,17 @@ function normalizeStr(str) {
 }
 
 /**
+ * Chave canônica de matching para nomes de estudantes:
+ * Remove acentos, caracteres especiais e preposições da língua portuguesa (da, de, do, das, dos)
+ * que frequentemente divergem entre diferentes diários de classe (ex: "Katilly Silva" vs "Katilly da Silva").
+ */
+function canonicalNameKey(str) {
+    if (!str || typeof str !== 'string') return '';
+    const norm = normalizeStr(str);
+    return norm.replace(/\b(da|de|do|das|dos)\b/g, ' ').replace(/\s+/g, ' ').trim();
+}
+
+/**
  * Extrai a série/turma base simplificada para unificação (ex: "6º Ano Matutino" -> "6 ano").
  */
 function normalizeTurmaBase(turmaName) {
@@ -113,7 +124,7 @@ function extractDiscipline(turmaName = '', icon = '', fallback = 'Geral') {
  * @param {string} turmaName Nome da turma
  */
 function generateCanonicalStudentId(studentName, turmaName) {
-    const cleanName = normalizeStr(studentName);
+    const cleanName = canonicalNameKey(studentName);
     const cleanTurma = normalizeTurmaBase(turmaName);
     
     if (!cleanName) {
@@ -261,6 +272,7 @@ function groupTurmasByDiscipline(rawTurmas = [], defaultDiscipline = 'Geral') {
 
 module.exports = {
     normalizeStr,
+    canonicalNameKey,
     normalizeTurmaBase,
     extractDiscipline,
     generateCanonicalStudentId,

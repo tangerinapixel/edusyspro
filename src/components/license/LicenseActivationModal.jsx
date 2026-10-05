@@ -198,7 +198,7 @@ export default function LicenseActivationModal({ isOpen, onClose }) {
         {/* Rodapé Informativo */}
         <div className="px-6 py-3 bg-slate-950/40 border-t border-slate-800/60 flex items-center justify-between text-[11px] text-slate-400">
           <span>Tangerina Pixel • Gestão Pedagógica</span>
-          <span>Versão 5.5.1</span>
+          <span>Versão 5.5.2</span>
         </div>
 
       </div>

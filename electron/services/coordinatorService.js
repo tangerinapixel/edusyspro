@@ -338,7 +338,7 @@ async function ingestTeacherSnapshot(backupPackage, sourceMeta = {}) {
     const shardPayload = {
         teacher_id: teacherId,
         teacher_name: teacherName,
-        discipline,
+        discipline: primaryDiscipline,
         synced_at: new Date().toISOString(),
         last_backup_at: uploadedAt,
         backup_hash: fileHash,
@@ -385,12 +385,19 @@ async function ingestTeacherSnapshot(backupPackage, sourceMeta = {}) {
         }
     };
 
-    // Atualiza a tabela de mapeamento canônico de estudantes
+    // Purga atômica prévia dos vínculos anteriores deste professor para garantir que alunos
+    // que foram excluídos ou transferidos no banco de origem não fiquem como registros zumbis/órfãos
+    const prunedCanonical = identityResolver.pruneTeacherFromCanonicalMap(
+        manifest.canonical_students || {},
+        teacherId
+    );
+
+    // Atualiza a tabela de mapeamento canônico de estudantes a partir do estado fático atual do professor
     manifest.canonical_students = identityResolver.mapTeacherStudentsToCanonical(
-        manifest.canonical_students,
+        prunedCanonical,
         teacherId,
         teacherName,
-        discipline,
+        primaryDiscipline,
         rawStudents,
         rawTurmas
     );
@@ -405,7 +412,7 @@ async function ingestTeacherSnapshot(backupPackage, sourceMeta = {}) {
         status: 'INGESTED_OK',
         teacherId,
         teacherName,
-        discipline,
+        discipline: primaryDiscipline,
         studentsCount: rawStudents.length
     };
 }
@@ -415,7 +422,7 @@ async function ingestTeacherSnapshot(backupPackage, sourceMeta = {}) {
  * Replica com precisão cirúrgica a fórmula ponderada oficial do EduSys Pro:
  * Média = Comportamento + Mini-testes + Provas + Lições/Atividades + Trabalhos + Bônus (teto 10.0)
  */
-function computeStudentDisciplineMetrics(payload, localStudentId, localTurmaId) {
+function computeStudentDisciplineMetrics(payload, localStudentId, localTurmaId, targetUnitId = null) {
     if (!payload || !Array.isArray(payload.students)) return null;
 
     const student = (payload.students || []).find(s => s.id === localStudentId);
@@ -424,11 +431,15 @@ function computeStudentDisciplineMetrics(payload, localStudentId, localTurmaId) 
     const targetTurmaId = localTurmaId || student.turma_id;
     const studentTurma = (payload.turmas || []).find(t => t.id === targetTurmaId);
     
-    // Unidade ativa de referência
+    // Unidade de referência: se targetUnitId informado, usa-o; caso contrário, usa a unidade ativa
     const activeUnit = (payload.units || []).find(u => u.is_active) || (payload.units || [])[0] || { id: 1 };
-    const activeUnitId = activeUnit.id;
+    const effectiveUnitId = targetUnitId !== null && targetUnitId !== undefined 
+        ? Number(targetUnitId) 
+        : Number(activeUnit.id || 1);
 
-    const unitParams = (payload.turma_unit_params || []).find(p => p.turma_id === targetTurmaId && p.unit_id === activeUnitId);
+    const unitParams = (payload.turma_unit_params || []).find(
+        p => p.turma_id === targetTurmaId && Number(p.unit_id) === effectiveUnitId
+    );
     const settings = payload.settings || {
         behavior_start_score: 3.0,
         max_mini_testes: 14,
@@ -450,15 +461,19 @@ function computeStudentDisciplineMetrics(payload, localStudentId, localTurmaId) 
     const turmaMaxProvasWeight     = typeof unitParams?.max_provas_weight === 'number' ? unitParams.max_provas_weight : (typeof studentTurma?.max_provas_weight === 'number' ? studentTurma.max_provas_weight : (settings.max_provas_weight ?? 4.0));
     const turmaMaxProvaScore       = typeof unitParams?.max_prova_score === 'number' ? unitParams.max_prova_score : (typeof studentTurma?.max_prova_score === 'number' ? studentTurma.max_prova_score : (settings.max_prova_score ?? 10));
 
-    // 1. Comportamento
-    const occs = (payload.occurrences || []).filter(o => o.student_id === localStudentId);
+    // 1. Comportamento (filtrado pela unidade letiva)
+    const occs = (payload.occurrences || []).filter(o => 
+        o.student_id === localStudentId && (o.unit_id === undefined || Number(o.unit_id) === effectiveUnitId)
+    );
     const totalPenalties = occs.reduce((acc, curr) => acc + (curr.points !== undefined ? curr.points : 0), 0);
     const startScore = typeof settings.behavior_start_score === 'number' ? settings.behavior_start_score : 3.0;
     let behaviorScore = startScore + totalPenalties;
     if (behaviorScore < 0) behaviorScore = 0;
 
-    // 2. Mini-Testes
-    const testesDoAluno = (payload.mini_testes || []).filter(t => t.student_id === localStudentId);
+    // 2. Mini-Testes (filtrados pela unidade letiva)
+    const testesDoAluno = (payload.mini_testes || []).filter(t => 
+        t.student_id === localStudentId && (t.unit_id === undefined || Number(t.unit_id) === effectiveUnitId)
+    );
     let totalMiniTestes = 0;
     if (testesDoAluno.length > 0 && turmaMaxMiniTesteScore > 0) {
         const somaNormalizada = testesDoAluno.reduce((acc, curr) => acc + ((curr.score || 0) / turmaMaxMiniTesteScore), 0);
@@ -466,17 +481,23 @@ function computeStudentDisciplineMetrics(payload, localStudentId, localTurmaId) 
         totalMiniTestes = Math.min((somaNormalizada * turmaMaxMiniTestesWeight) / limit, turmaMaxMiniTestesWeight);
     }
 
-    // 3. Lições de Casa / Atividades
-    const studentActs = (payload.activities || []).filter(a => a.student_id === localStudentId && a.is_completed);
+    // 3. Lições de Casa / Atividades (filtradas pela unidade letiva)
+    const studentActs = (payload.activities || []).filter(a => 
+        a.student_id === localStudentId && a.is_completed && (a.unit_id === undefined || Number(a.unit_id) === effectiveUnitId)
+    );
     const peso_por_licao = turmaMaxActivities > 0 ? turmaMaxActivitiesWeight / turmaMaxActivities : 0;
     const licaoScore = Math.min(studentActs.length * peso_por_licao, turmaMaxActivitiesWeight);
 
-    // 4. Trabalhos
-    const trabalhosAluno = (payload.trabalhos || []).filter(t => t.student_id === localStudentId);
+    // 4. Trabalhos (filtrados pela unidade letiva)
+    const trabalhosAluno = (payload.trabalhos || []).filter(t => 
+        t.student_id === localStudentId && (t.unit_id === undefined || Number(t.unit_id) === effectiveUnitId)
+    );
     const trabalhoScore = trabalhosAluno.reduce((acc, curr) => acc + (curr.score || 0), 0);
 
-    // 5. Provas
-    const provasAluno = (payload.provas || []).filter(t => t.student_id === localStudentId);
+    // 5. Provas (filtradas pela unidade letiva)
+    const provasAluno = (payload.provas || []).filter(t => 
+        t.student_id === localStudentId && (t.unit_id === undefined || Number(t.unit_id) === effectiveUnitId)
+    );
     let provaScore = 0;
     if (provasAluno.length > 0 && turmaMaxProvaScore > 0) {
         const somaNormalizada = provasAluno.reduce((acc, curr) => acc + ((curr.score || 0) / turmaMaxProvaScore), 0);
@@ -484,8 +505,10 @@ function computeStudentDisciplineMetrics(payload, localStudentId, localTurmaId) 
         provaScore = Math.min((somaNormalizada * turmaMaxProvasWeight) / limit, turmaMaxProvasWeight);
     }
 
-    // 6. Bônus
-    const bonusAluno = (payload.bonus || []).filter(b => b.student_id === localStudentId);
+    // 6. Bônus (filtrados pela unidade letiva)
+    const bonusAluno = (payload.bonus || []).filter(b => 
+        b.student_id === localStudentId && (b.unit_id === undefined || Number(b.unit_id) === effectiveUnitId)
+    );
     const bonusScore = bonusAluno.reduce((acc, curr) => acc + (curr.score || 0), 0);
 
     // Média Final
@@ -495,6 +518,7 @@ function computeStudentDisciplineMetrics(payload, localStudentId, localTurmaId) 
     const mediaFinal = Math.floor(totalMedia * 100) / 100;
 
     return {
+        unitId: effectiveUnitId,
         behaviorScore: Number(behaviorScore.toFixed(2)),
         pointsLost: totalPenalties,
         totalMiniTestes: Number(totalMiniTestes.toFixed(2)),
@@ -651,8 +675,9 @@ function removeTeacher(teacherId) {
 /**
  * Gera o Raio-X Dossiê 360º de um estudante através de todas as disciplinas.
  * @param {string} canonicalStudentId ID canônico do estudante
+ * @param {number|string|null} targetUnitId Unidade específica (ou nula para unidade ativa)
  */
-function getStudent360(canonicalStudentId) {
+function getStudent360(canonicalStudentId, targetUnitId = null) {
     sessionManager.assertCoordinatorAccess();
     const manifest = readManifest();
     const studentMeta = manifest.canonical_students?.[canonicalStudentId];
@@ -675,9 +700,13 @@ function getStudent360(canonicalStudentId) {
         const localId = enroll.local_student_id;
         const localTurmaId = enroll.local_turma_id;
 
-        // Ocorrências deste aluno nesta matéria/turma
+        // Motor de Notas Real com ponderação oficial EduSys Pro e isolamento de unidade
+        const computed = computeStudentDisciplineMetrics(payload, localId, localTurmaId, targetUnitId);
+        const effectiveUnitId = computed?.unitId;
+
+        // Ocorrências deste aluno nesta matéria/turma (isoladas pela unidade)
         const teacherOccurrences = (payload.occurrences || [])
-            .filter(o => o.student_id === localId)
+            .filter(o => o.student_id === localId && (effectiveUnitId === undefined || o.unit_id === undefined || Number(o.unit_id) === effectiveUnitId))
             .map(o => ({
                 ...o,
                 discipline: enroll.discipline,
@@ -686,15 +715,25 @@ function getStudent360(canonicalStudentId) {
             }));
         allOccurrences.push(...teacherOccurrences);
 
-        // Atividades e Lições
-        const studentActivities = (payload.activities || []).filter(a => a.student_id === localId);
+        // Atividades e Lições (filtradas pela unidade)
+        const studentActivities = (payload.activities || []).filter(a => 
+            a.student_id === localId && (effectiveUnitId === undefined || a.unit_id === undefined || Number(a.unit_id) === effectiveUnitId)
+        );
         const deliveredCount = studentActivities.filter(a => a.is_completed).length;
 
-        // Provas e Avaliações
-        const studentProvas = (payload.provas || []).filter(p => p.student_id === localId);
-        const studentMiniTestes = (payload.mini_testes || []).filter(m => m.student_id === localId);
-        const studentTrabalhos = (payload.trabalhos || []).filter(t => t.student_id === localId);
-        const studentBonus = (payload.bonus || []).filter(b => b.student_id === localId);
+        // Provas e Avaliações (filtradas pela unidade)
+        const studentProvas = (payload.provas || []).filter(p => 
+            p.student_id === localId && (effectiveUnitId === undefined || p.unit_id === undefined || Number(p.unit_id) === effectiveUnitId)
+        );
+        const studentMiniTestes = (payload.mini_testes || []).filter(m => 
+            m.student_id === localId && (effectiveUnitId === undefined || m.unit_id === undefined || Number(m.unit_id) === effectiveUnitId)
+        );
+        const studentTrabalhos = (payload.trabalhos || []).filter(t => 
+            t.student_id === localId && (effectiveUnitId === undefined || t.unit_id === undefined || Number(t.unit_id) === effectiveUnitId)
+        );
+        const studentBonus = (payload.bonus || []).filter(b => 
+            b.student_id === localId && (effectiveUnitId === undefined || b.unit_id === undefined || Number(b.unit_id) === effectiveUnitId)
+        );
 
         // Diagnósticos Pedagógicos IA deste shard
         const studentDiagnoses = (payload.diagnoses || [])
@@ -713,9 +752,6 @@ function getStudent360(canonicalStudentId) {
                 allDiagnoses.push(d);
             }
         });
-
-        // Motor de Notas Real com ponderação oficial EduSys Pro
-        const computed = computeStudentDisciplineMetrics(payload, localId, localTurmaId);
         
         // Média de provas avulsas caso seja um snapshot simplificado sem settings
         const provaScores = studentProvas.map(p => Number(p.score || 0));
@@ -928,6 +964,76 @@ function getUnlinkedSources() {
     return manifest.unlinked_sources || {};
 }
 
+/**
+ * Utilitário de Reconstrução e Saneamento do Cofre:
+ * Recria o mapa canônico de estudantes a partir do zero lendo exclusivamente os shards
+ * físicos ativos em disco. Elimina todos os registros zumbis, referências órfãs e corrige contagens.
+ */
+function rebuildVaultIndex() {
+    sessionManager.assertCoordinatorAccess();
+    const manifest = readManifest();
+    const previousStudentCount = Object.keys(manifest.canonical_students || {}).length;
+
+    // Reinicializa o mapa canônico limpo
+    let nextCanonicalMap = {};
+    const validTeachersIndex = {};
+
+    const teacherIds = Object.keys(manifest.teachers_index || {});
+    for (const teacherId of teacherIds) {
+        const teacherMeta = manifest.teachers_index[teacherId];
+        const shard = getTeacherShard(teacherId);
+
+        if (!shard || !shard.payload) {
+            console.warn(`[CoordinatorService] Shard ausente ou ilegível para o docente ${teacherId}. Removendo do índice.`);
+            continue;
+        }
+
+        const rawStudents = Array.isArray(shard.payload.students) ? shard.payload.students : [];
+        const rawTurmas = Array.isArray(shard.payload.turmas) ? shard.payload.turmas : [];
+        const teacherName = shard.teacher_name || teacherMeta.name || 'Professor';
+        const primaryDiscipline = teacherMeta.discipline || shard.discipline || 'Geral';
+
+        // Mapeia os alunos do professor sobre o mapa canônico limpo
+        nextCanonicalMap = identityResolver.mapTeacherStudentsToCanonical(
+            nextCanonicalMap,
+            teacherId,
+            teacherName,
+            primaryDiscipline,
+            rawStudents,
+            rawTurmas
+        );
+
+        validTeachersIndex[teacherId] = {
+            ...teacherMeta,
+            records_count: {
+                ...(teacherMeta.records_count || {}),
+                students: rawStudents.length
+            }
+        };
+    }
+
+    const newStudentCount = Object.keys(nextCanonicalMap).length;
+    const prunedZombiesCount = Math.max(0, previousStudentCount - newStudentCount);
+
+    manifest.canonical_students = nextCanonicalMap;
+    manifest.teachers_index = validTeachersIndex;
+    manifest.last_vault_sync = new Date().toISOString();
+
+    writeManifest(manifest);
+    const aggregates = recalculateAggregatesCache(manifest);
+
+    console.log(`[CoordinatorService] Reconstrução do cofre concluída. Estudantes prévios: ${previousStudentCount}, Atuais: ${newStudentCount}, Zumbis purgados: ${prunedZombiesCount}.`);
+
+    return {
+        success: true,
+        previousStudentCount,
+        newStudentCount,
+        prunedZombiesCount,
+        totalTeachers: Object.keys(validTeachersIndex).length,
+        overview: aggregates
+    };
+}
+
 module.exports = {
     ensureDirectories,
     ingestTeacherSnapshot,
@@ -938,5 +1044,6 @@ module.exports = {
     getStudent360,
     getSchoolOverview,
     recalculateAggregatesCache,
-    computeStudentDisciplineMetrics
+    computeStudentDisciplineMetrics,
+    rebuildVaultIndex
 };

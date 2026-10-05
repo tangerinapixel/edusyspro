@@ -205,7 +205,7 @@ const LoginScreen = ({
             <h1 className="text-2xl font-black text-white tracking-tight">
               EduSys <span className={selectedRole === "coordinator" ? "text-amber-400" : "text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-400"}>Pro</span>
             </h1>
-            <p className="text-slate-400 font-medium text-[11px] mt-0.5">Gestão Pedagógica • v5.5.2</p>
+            <p className="text-slate-400 font-medium text-[11px] mt-0.5">Gestão Pedagógica • v5.5.3</p>
           </div>
 
           {/* SELETOR DE PERFIL BIFURCADO COM TRANSIÇÃO SUAVE (SLIDING PILL) */}

@@ -48,7 +48,7 @@ const Sidebar = () => {
           <h1 className="text-xl font-bold text-white tracking-tight flex items-center gap-1.5">
             EduSys<span className="text-orange-400">Pro</span>
             <span className="px-1.5 py-0.5 bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 rounded text-[8px] font-bold uppercase tracking-tighter">
-              5.5.2
+              5.5.3
             </span>
           </h1>
         </div>

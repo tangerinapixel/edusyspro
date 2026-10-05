@@ -3,11 +3,13 @@ import { useApp } from "../contexts/AppContext";
 import { Icons } from '../assets/icons';
 import { normalizeWeeklySchedule } from '../utils/scheduleUtils';
 import LicenseSettingsCard from '../components/license/LicenseSettingsCard';
+import BackupTimeMachineModal from '../components/backup/BackupTimeMachineModal';
 
 export default function Settings() {
   const [showAllOccurrences, setShowAllOccurrences] = useState(false);
   const [activeSection, setActiveSection] = useState(null); // null = Hub | 'pedagogical' | 'units' | 'turmas' | 'disciplinary' | 'backup' | 'ai' | 'security' | 'license'
   const [isTurmaDropdownOpen, setIsTurmaDropdownOpen] = useState(false);
+  const [timeMachineOpen, setTimeMachineOpen] = useState(false);
 
   const {
     settings,
@@ -148,7 +150,7 @@ export default function Settings() {
       group: 'Segurança & Conta',
       title: 'Licença & Atualizações',
       description: 'Identificador de máquina (MID), plano contratado e atualizador oficial.',
-      badge: 'v5.5.3',
+      badge: 'v5.5.4',
       icon: Icons.Star,
       color: 'from-teal-600 to-emerald-700',
       badgeColor: 'bg-teal-50 text-teal-700 border-teal-200'
@@ -185,7 +187,7 @@ export default function Settings() {
             <div className="flex items-center gap-2 self-start md:self-auto flex-wrap">
               <span className="px-3 py-1.5 bg-slate-100 text-slate-700 border border-slate-200/80 rounded-xl text-xs font-bold flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                <span>v5.5.3</span>
+                <span>v5.5.4</span>
               </span>
               <span className="px-3 py-1.5 bg-indigo-50 text-indigo-700 border border-indigo-100 rounded-xl text-xs font-bold">
                 {currentTurma?.name || 'Turma'} • {currentUnit?.name || '1ª Unidade'}
@@ -926,6 +928,17 @@ export default function Settings() {
 
                       <button
                         type="button"
+                        onClick={() => setTimeMachineOpen(true)}
+                        className="px-4 py-2.5 bg-gradient-to-r from-sky-600 to-indigo-600 hover:from-sky-700 hover:to-indigo-700 text-white rounded-xl font-bold text-xs transition-all shadow-xs flex items-center justify-center gap-2 w-full cursor-pointer active:scale-95"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        Máquina do Tempo (Cofre de Snapshots)
+                      </button>
+
+                      <button
+                        type="button"
                         onClick={() => setLogoutConfirmOpen(true)}
                         className="px-4 py-2.5 bg-slate-100 hover:bg-rose-50 text-slate-700 hover:text-rose-600 border border-slate-200 hover:border-rose-200 rounded-xl font-bold text-xs transition-all shadow-2xs flex items-center justify-center gap-2 w-full cursor-pointer"
                       >
@@ -1117,6 +1130,12 @@ export default function Settings() {
           )}
         </div>
       )}
+
+      {/* Modal da Máquina do Tempo de Backups */}
+      <BackupTimeMachineModal
+        isOpen={timeMachineOpen}
+        onClose={() => setTimeMachineOpen(false)}
+      />
     </div>
   );
 }

@@ -33,13 +33,13 @@ async function discoverTeacherBackupFiles() {
     }
 
     try {
-        // Busca arquivos que contenham 'edusys' no nome e extensão json, não descartados na lixeira
-        const query = "mimeType = 'application/json' and (name contains 'edusys' or name contains 'backup') and trashed = false";
+        // Busca arquivos consolidados de backup, ignorando snapshots históricos do cofre
+        const query = "mimeType = 'application/json' and (name = 'edusys_pro_backup.json' or name contains 'backup') and not name contains 'snapshot_' and trashed = false";
         const response = await drive.files.list({
             q: query,
             fields: 'files(id, name, modifiedTime, shared, owners(displayName, emailAddress), size)',
             spaces: 'drive',
-            pageSize: 50
+            pageSize: 1000
         });
 
         return response.data.files || [];
@@ -86,7 +86,7 @@ async function syncAllTeachersFromDrive() {
     // Agrupa backups pelo titular/proprietário e seleciona apenas a versão mais recente
     const filesByOwner = {};
     for (const f of rawFiles) {
-        const ownerKey = f.owners?.[0]?.emailAddress || f.owners?.[0]?.displayName || f.name.replace(/\.json$/i, '');
+        const ownerKey = f.owners?.[0]?.emailAddress || f.owners?.[0]?.displayName || f.name.replace(/\.(json|edusys)$/i, '');
         if (!filesByOwner[ownerKey]) {
             filesByOwner[ownerKey] = [];
         }
@@ -121,7 +121,7 @@ async function syncAllTeachersFromDrive() {
     for (const file of filesToProcess) {
         try {
             const rawContent = await downloadDriveFile(file.id);
-            const ownerName = file.owners?.[0]?.displayName || file.name.replace('.json', '');
+            const ownerName = file.owners?.[0]?.displayName || file.name.replace(/\.(json|edusys)$/i, '');
 
             const ingestRes = await coordinatorService.ingestTeacherSnapshot(rawContent, {
                 source: 'google_drive',

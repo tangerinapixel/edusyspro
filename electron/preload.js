@@ -76,6 +76,11 @@ contextBridge.exposeInMainWorld('electronAPI', {
     cloudGetCloudMetadata: () => ipcRenderer.invoke('cloud:getCloudMetadata'),
     cloudLogout: () => ipcRenderer.invoke('cloud:logout'),
 
+    // Cloud Time Machine (Cofre Imutável)
+    vaultListSnapshots: () => ipcRenderer.invoke('vault:listSnapshots'),
+    vaultRestoreSnapshot: (fileId) => ipcRenderer.invoke('vault:restoreSnapshot', fileId),
+    vaultGetMetrics: () => ipcRenderer.invoke('vault:getMetrics'),
+
     // AI
     generateLessonPlan: (params) => ipcRenderer.invoke('ai:generateLessonPlan', params),
     generateExamWithAI: (params) => ipcRenderer.invoke('ai:generateExam', params),

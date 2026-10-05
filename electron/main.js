@@ -16,6 +16,7 @@ const { registerCoordinatorHandlers } = require('./controllers/coordinatorContro
 const { registerCoordinatorUnitDossierHandlers } = require('./controllers/coordinatorUnitDossierController');
 const { registerCoordinatorPdfHandlers } = require('./controllers/coordinatorPdfController');
 const { registerCoordinatorSettingsHandlers } = require('./controllers/coordinatorSettingsController');
+const { registerCloudVaultHandlers } = require('./controllers/cloudVaultController');
 const { initAutoUpdater } = require('./services/updateService');
 
 let mainWindow;
@@ -69,6 +70,7 @@ app.whenReady().then(() => {
     registerCoordinatorUnitDossierHandlers();
     registerCoordinatorPdfHandlers(getMainWindow);
     registerCoordinatorSettingsHandlers(getMainWindow);
+    registerCloudVaultHandlers();
     initAutoUpdater(getMainWindow);
 
     createWindow();

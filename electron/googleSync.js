@@ -10,6 +10,9 @@ const store = new Store();
 // Credenciais OAuth2 isoladas em arquivo gitignored (electron/oauth_credentials.js).
 // Nunca exponha CLIENT_ID/SECRET diretamente no código-fonte.
 const { CLIENT_ID, CLIENT_SECRET, REDIRECT_URI } = require('./oauth_credentials');
+const CloudEnvironmentGuard = require('./services/cloudEnvironmentGuard');
+const CloudBackupGuardService = require('./services/cloudBackupGuardService');
+const CloudSnapshotVaultService = require('./services/cloudSnapshotVaultService');
 
 const SCOPES = [
     'https://www.googleapis.com/auth/drive.file'
@@ -135,10 +138,11 @@ async function startAuth(parentWindow) {
     });
 }
 
-async function findBackupFile() {
+async function findBackupFile(customName = null) {
     try {
+        const targetName = customName || CloudEnvironmentGuard.getTargetBackupFilename();
         const response = await drive.files.list({
-            q: `name = '${BACKUP_FILENAME}' and trashed = false`,
+            q: `name = '${targetName}' and trashed = false`,
             fields: 'files(id, name, modifiedTime)',
             spaces: 'drive'
         });
@@ -149,29 +153,63 @@ async function findBackupFile() {
     }
 }
 
-async function uploadBackup(localData) {
+async function uploadBackup(localData, options = {}) {
     try {
-        const existingFile = await findBackupFile();
+        // 1. Guardião de Ambiente: Se for auto-sync e estiver em dev, bloqueia para não poluir produção
+        if (options.isAutoSync && !CloudEnvironmentGuard.isAutoSyncAllowed()) {
+            CloudEnvironmentGuard.auditLog('Auto-sync ignorado em ambiente de desenvolvimento.');
+            return { success: true, skipped: true, reason: 'DEV_AUTOSYNC_BLOCKED' };
+        }
 
-        // Normaliza o payload para string (sempre será o banco criptografado)
+        const targetName = CloudEnvironmentGuard.getTargetBackupFilename();
+        const existingFile = await findBackupFile(targetName);
+
+        // 2. Extração de métricas locais para auditoria anti-regressão
+        const { dbAPI } = require('./database');
+        const memoryDb = dbAPI.getMemoryData ? dbAPI.getMemoryData() : null;
+        const localMetrics = CloudBackupGuardService.extractMetrics(memoryDb);
+
+        // 3. Data Shrinkage Guard: Se já existe backup no Drive, compara volumetria
+        if (existingFile && !options.bypassSafety) {
+            try {
+                const prevRes = await drive.files.get({ fileId: existingFile.id, alt: 'media' });
+                const prevData = prevRes.data;
+                const prevEnvelope = (prevData && typeof prevData === 'object' && !Buffer.isBuffer(prevData))
+                    ? prevData
+                    : (typeof prevData === 'string' ? JSON.parse(prevData) : null);
+
+                if (prevEnvelope && prevEnvelope.metrics) {
+                    const safety = CloudBackupGuardService.assessBackupSafety(localMetrics, prevEnvelope, options);
+                    if (!safety.safe) {
+                        console.error('[Cloud Guard] Tentativa de regressão bloqueada:', safety.error);
+                        return { success: false, error: safety.error, code: 'BLOCKED_DATA_SHRINKAGE' };
+                    }
+                }
+            } catch (errInspect) {
+                console.warn('[Cloud Guard] Aviso ao inspecionar métricas anteriores:', errInspect.message);
+            }
+        }
+
+        // 4. Normaliza o payload para string
         const payload = typeof localData === 'string' ? localData : JSON.stringify(localData, null, 2);
 
-        // ─── ENVELOPE DE INTEGRIDADE ─────────────────────────────────────────────
-        // Computa SHA-256 sobre o payload criptografado antes de enviar.
-        // Na restauração, o hash é reverificado — qualquer alteração é detectada.
-        const hash = crypto.createHash('sha256').update(payload, 'utf8').digest('hex');
-        const envelope = JSON.stringify({
-            _edusys: true,
-            app_version: '5.5.3',
-            uploaded_at: new Date().toISOString(),
-            hash,
-            payload
-        });
-        // ─────────────────────────────────────────────────────────────────────────
+        // 5. Gera Envelope Blindado com SHA-256 e métricas
+        const envelope = CloudBackupGuardService.createSealedEnvelope(payload, localMetrics, '5.5.4');
 
+        // 6. Gravação Dual: Cria snapshot imutável no Cofre se for produção ou autorizado
+        if (!CloudEnvironmentGuard.isDevEnvironment() || process.env.ALLOW_PROD_SYNC_IN_DEV === 'true') {
+            try {
+                await CloudSnapshotVaultService.persistImmutableSnapshot(drive, envelope, localMetrics, options);
+                console.log('[Cloud Vault] Snapshot imutável persistido no cofre com sucesso.');
+            } catch (snapErr) {
+                console.warn('[Cloud Vault] Aviso ao gravar snapshot imutável:', snapErr.message);
+            }
+        }
+
+        // 7. Atualiza ou cria o arquivo de ponteiro principal
         const media = {
             mimeType: 'application/json',
-            body: envelope
+            body: JSON.stringify(envelope, null, 2)
         };
 
         if (existingFile) {
@@ -182,13 +220,15 @@ async function uploadBackup(localData) {
         } else {
             await drive.files.create({
                 requestBody: {
-                    name: BACKUP_FILENAME,
+                    name: targetName,
                     mimeType: 'application/json'
                 },
                 media: media
             });
         }
-        return { success: true };
+
+        CloudEnvironmentGuard.auditLog(`Backup concluído com sucesso no arquivo ${targetName}`);
+        return { success: true, targetFile: targetName, metrics: localMetrics };
     } catch (e) {
         const errorMsg = e.message || String(e);
         if (errorMsg.includes('invalid_grant') || e.code === 401) {
@@ -202,6 +242,9 @@ async function uploadBackup(localData) {
 
 async function downloadBackup() {
     try {
+        // Auto-Healing: verifica e repara consistência entre o cofre e o ponteiro antes de ler
+        await CloudSnapshotVaultService.verifyPointerConsistency(drive);
+
         const existingFile = await findBackupFile();
         if (!existingFile) return { success: false, error: 'Nenhum backup encontrado no Drive' };
 
@@ -292,6 +335,7 @@ async function getOrCreateFolder(folderName) {
 
 async function getCloudMetadata() {
     try {
+        await CloudSnapshotVaultService.verifyPointerConsistency(drive);
         const file = await findBackupFile();
         if(!file) return null;
         return { 
@@ -364,6 +408,8 @@ module.exports = {
     getCloudMetadata,
     exportToDoc,
     logout,
+    getDriveClient: () => drive,
+    verifyPointerConsistency: (pName) => CloudSnapshotVaultService.verifyPointerConsistency(drive, pName),
     isAuthenticated: async () => {
         if (!store.get('google_tokens')) return false;
 

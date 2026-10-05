@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { useApp } from "../contexts/AppContext";
 import { Icons } from "../assets/icons";
+import BackupTimeMachineModal from "../components/backup/BackupTimeMachineModal";
 
 const Restaurar = () => {
+  const [timeMachineOpen, setTimeMachineOpen] = useState(false);
   const {
     isCloudAuthenticated,
     handleCloudLogin,
@@ -44,20 +46,30 @@ const Restaurar = () => {
               {isSyncing ? 'Conectando...' : 'Conectar com Google Drive'}
             </button>
           ) : (
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 flex-wrap">
               <button
                 onClick={() => handleCloudSync(true)}
                 disabled={isSyncing}
-                className="w-full sm:w-auto px-6 py-3 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl font-bold flex items-center justify-center gap-2 text-sm shadow-md shadow-emerald-500/20 transition-all active:scale-95 disabled:opacity-50"
+                className="w-full sm:w-auto px-5 py-3 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl font-bold flex items-center justify-center gap-2 text-sm shadow-md shadow-emerald-500/20 transition-all active:scale-95 disabled:opacity-50 cursor-pointer"
               >
                 {isSyncing ? 'Sincronizando...' : 'Sincronizar Agora'}
               </button>
               <button
                 onClick={() => setRestoreConfirmOpen(true)}
                 disabled={isSyncing}
-                className="w-full sm:w-auto px-6 py-3 bg-white border border-slate-200 text-slate-600 hover:border-slate-800 hover:text-slate-800 rounded-xl font-bold text-sm transition-all active:scale-95 disabled:opacity-50"
+                className="w-full sm:w-auto px-5 py-3 bg-white border border-slate-200 text-slate-600 hover:border-slate-800 hover:text-slate-800 rounded-xl font-bold text-sm transition-all active:scale-95 disabled:opacity-50 cursor-pointer"
               >
-                Baixar Backup da Nuvem
+                Baixar Último Backup
+              </button>
+              <button
+                onClick={() => setTimeMachineOpen(true)}
+                disabled={isSyncing}
+                className="w-full sm:w-auto px-5 py-3 bg-gradient-to-r from-sky-600 to-indigo-600 hover:from-sky-700 hover:to-indigo-700 text-white rounded-xl font-bold text-sm shadow-md shadow-indigo-600/20 transition-all active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Máquina do Tempo
               </button>
             </div>
           )}
@@ -83,6 +95,12 @@ const Restaurar = () => {
           Nenhum dado é compartilhado com terceiros.
         </p>
       </div>
+
+      {/* Modal da Máquina do Tempo de Backups */}
+      <BackupTimeMachineModal
+        isOpen={timeMachineOpen}
+        onClose={() => setTimeMachineOpen(false)}
+      />
     </div>
   );
 };

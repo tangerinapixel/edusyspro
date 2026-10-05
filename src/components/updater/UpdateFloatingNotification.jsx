@@ -65,7 +65,7 @@ export function UpdateFloatingNotification() {
                   {isReady ? 'Atualização Pronta!' : downloading ? 'Baixando Pacotes...' : 'Nova Versão Disponível'}
                 </h4>
                 <span className="px-1.5 py-0.2 bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 rounded text-[9px] font-bold">
-                  v{newVersion || '5.5.3'}
+                  v{newVersion || '5.5.4'}
                 </span>
               </div>
               <p className="text-[11px] text-slate-400 mt-0.5">

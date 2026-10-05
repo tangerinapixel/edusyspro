@@ -28,15 +28,18 @@ async function publishLatest() {
     return;
   }
 
-  const changelog = `### 🚀 EduSys Pro v${pkg.version} - Inteligência da Governança Escolar & Blindagem de Dados
+  const changelog = `### 🚀 EduSys Pro v${pkg.version} - Arquitetura de Backup Resiliente Nível SaaS & Blindagem WORM
 
-- **🏛️ Governança Escolar & Unificação Canônica Perfeita**: Saneamento completo do cofre da coordenação com purga automática prévia na reingestão de snapshots docentes, eliminando registros órfãos ou excluídos e consolidando as matrículas com precisão matemática.
-- **🛡️ Isolamento Estrito de Unidade Letiva nas Médias Globais**: Cálculo da Média Geral da Escola e Dossiê 360º do Estudante protegidos contra vazamento inter-trimestral, contabilizando notas, atividades e penalidades exclusivamente na unidade de referência ativa.
-- **📚 Histórico Completo & Transição Fluida de Unidades**: Rastreio granular de lições e atividades por unidade letiva, garantindo acesso completo ao histórico da 1ª e 2ª Unidade e continuidade de lançamentos na 3ª Unidade.
-- **🔐 Segurança Nível SaaS na Gestão de Acessos**: Redefinição de senha e PIN do coordenador com exigência de re-autenticação prévia da credencial atual e proteção de sessão.
-- **✨ Tolerância a Variações Cadastrais & Chave Canônica Robusta**: Resolvedor de identidade multi-docente aprimorado com tolerância a preposições da língua portuguesa, garantindo unificação impecável de prontuários em diferentes disciplinas.
-- **🎨 Estabilidade Visual e Identidade Preservada**: Ícones vetoriais em alta fidelidade na autenticação e nas barras laterais, e ícone corporativo nativo do Windows (.exe) no instalador e Área de Trabalho.
-- **🛡️ 100% Homologado em Testes de Não-Regressão**: Suíte completa de testes aprovada garantindo total estabilidade do banco de dados e diários de classe.`;
+- **🛡️ Backup Resiliente Nível SaaS à Prova de Falhas**: Implementação de esteira de proteção em camadas para sincronização com o Google Drive, eliminando definitivamente o risco de perda ou sobrescrita acidental de dados escolares.
+- **📦 Cofre de Snapshots Imutáveis (WORM & SHA-256)**: Cada sincronização gera um snapshot versionado e selado criptograficamente com hash SHA-256 e envelope de integridade na pasta exclusiva \`/EduSys_Vault/Snapshots/\`.
+- **🛑 Guardião Anti-Encolhimento de Dados (Data Shrinkage Guard)**: Validação volumétrica rigorosa de alunos, atividades e itens avaliativos antes de qualquer upload, bloqueando automaticamente tentativas de envio que reduzam a base em mais de 5%.
+- **🧹 Política de Retenção Inteligente GFS & Proteção Vitalícia**: Algoritmo Grandfather-Father-Son mantendo granularidade total nas últimas 48h, 1 snapshot diário até 30 dias e expurgo de obsoletos, com imunidade perpétua para snapshots com o marcador \`[PROTECTED]\`.
+- **🔑 Bypass Administrativo com Rastreabilidade Forense**: Mecanismo controlado para limpezas legítimas de encerramento de ano letivo, carimbando indelevelmente a tag \`[ADMIN_BYPASS]\` no cofre para auditoria.
+- **🧱 Air-Gap Profundo Heurístico**: Isolamento estrito entre ambientes com verificação de runtime, variáveis de ambiente e inspeção de sistema de arquivos, impedindo contaminação de produção por ambientes de desenvolvimento ou IA.
+- **🔄 Auto-Healing de Race Condition**: Autocura de ponteiros em quedas de conexão, detectando snapshots órfãos mais novos e realinhando o estado da nuvem sem intervenção manual.
+- **🏛️ Sincronização Multi-Docente Blindada na Coordenação**: Filtro de busca inteligente e paginação ampliada (1000) no painel do Gestor, isolando os snapshots do cofre e garantindo varredura limpa e ágil de todos os professores.
+- **⏳ Máquina do Tempo de Backups com Rollback Automático**: Interface visual em Configurações para restauração histórica de qualquer ponto com geração de backup de emergência local pré-restauração.
+- **✅ 100% Homologado em Testes de Não-Regressão**: Suíte completa de testes aprovada garantindo total estabilidade do aplicativo.`;
 
   console.log(`Publicando release ${draft.tag_name || targetTag} (ID: ${draft.id})...`);
   const patchRes = await fetch(`https://api.github.com/repos/tangerinapixel/edusyspro/releases/${draft.id}`, {

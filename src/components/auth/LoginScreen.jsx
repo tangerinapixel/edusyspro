@@ -191,16 +191,12 @@ const LoginScreen = ({
 
           {/* Cabeçalho e Identidade Visual */}
           <div className="text-center mb-4">
-            <div
-              className={`w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-2.5 shadow-md transform hover:scale-105 transition-all duration-300 ${
-                selectedRole === "coordinator"
-                  ? "bg-gradient-to-tr from-amber-500 to-orange-400 shadow-amber-500/25"
-                  : "bg-gradient-to-tr from-orange-500 to-amber-400 shadow-orange-500/20"
-              }`}
-            >
-              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-              </svg>
+            <div className="w-14 h-14 rounded-2xl mx-auto mb-2.5 p-1 bg-slate-950/70 border border-slate-800 shadow-xl shadow-black/40 flex items-center justify-center transform hover:scale-105 transition-all duration-300">
+              <img 
+                src="/icon.png" 
+                alt="EduSys Pro Logo" 
+                className="w-full h-full object-contain rounded-xl drop-shadow-md" 
+              />
             </div>
             <h1 className="text-2xl font-black text-white tracking-tight">
               EduSys <span className={selectedRole === "coordinator" ? "text-amber-400" : "text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-400"}>Pro</span>

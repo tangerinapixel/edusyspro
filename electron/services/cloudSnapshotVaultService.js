@@ -74,7 +74,7 @@ class CloudSnapshotVaultService {
 
         const now = new Date();
         const dateStr = now.toISOString().replace(/[:.]/g, '-').slice(0, 19);
-        const version = envelopeData.app_version || '5.5.4';
+        const version = envelopeData.app_version || '5.5.5';
         const bypassTag = (options.forceBypass || options.allowShrinkage) ? '_[ADMIN_BYPASS]' : '';
         const filename = `edusys_snapshot_${dateStr}_v${version}${bypassTag}.edusys`;
 

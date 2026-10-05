@@ -93,7 +93,10 @@ export default function BackupTimeMachineModal({ isOpen, onClose }) {
 
   return (
     <>
-      <div className="fixed inset-0 z-40 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-in fade-in duration-200">
+      <div 
+        className="fixed inset-0 z-[1100] flex items-center justify-center p-4 sm:p-6 bg-slate-950/80 backdrop-blur-md animate-in fade-in duration-200 select-none"
+        onClick={onClose}
+      >
         <div 
           className="w-full max-w-4xl bg-white rounded-3xl shadow-2xl border border-slate-200 flex flex-col max-h-[90vh] overflow-hidden animate-in zoom-in-95 duration-200"
           onClick={(e) => e.stopPropagation()}
@@ -162,7 +165,7 @@ export default function BackupTimeMachineModal({ isOpen, onClose }) {
           )}
 
           {/* Lista de Snapshots */}
-          <div className="p-6 overflow-y-auto flex-1 space-y-3">
+          <div className="p-6 overflow-y-auto flex-1 space-y-3 custom-scrollbar">
             {isLoading && (
               <div className="py-16 text-center space-y-3">
                 <div className="w-10 h-10 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto"></div>

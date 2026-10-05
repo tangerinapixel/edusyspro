@@ -194,7 +194,7 @@ async function uploadBackup(localData, options = {}) {
         const payload = typeof localData === 'string' ? localData : JSON.stringify(localData, null, 2);
 
         // 5. Gera Envelope Blindado com SHA-256 e métricas
-        const envelope = CloudBackupGuardService.createSealedEnvelope(payload, localMetrics, '5.5.4');
+        const envelope = CloudBackupGuardService.createSealedEnvelope(payload, localMetrics, '5.5.5');
 
         // 6. Gravação Dual: Cria snapshot imutável no Cofre se for produção ou autorizado
         if (!CloudEnvironmentGuard.isDevEnvironment() || process.env.ALLOW_PROD_SYNC_IN_DEV === 'true') {

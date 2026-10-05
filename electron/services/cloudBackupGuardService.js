@@ -67,7 +67,7 @@ class CloudBackupGuardService {
     /**
      * Cria um Envelope de Integridade Blindado com metadados e métricas embutidas.
      */
-    static createSealedEnvelope(encryptedPayload, metrics, version = '5.5.4') {
+    static createSealedEnvelope(encryptedPayload, metrics, version = '5.5.5') {
         const payloadStr = typeof encryptedPayload === 'string' 
             ? encryptedPayload 
             : JSON.stringify(encryptedPayload);

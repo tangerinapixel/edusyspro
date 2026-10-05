@@ -5,7 +5,7 @@ const SNOOZE_SESSION_KEY = 'edusys_updater_snoozed_session_version';
 // Estado global compartilhado (Singleton Store)
 let globalUpdaterState = {
   state: 'IDLE', // 'IDLE' | 'CHECKING' | 'AVAILABLE' | 'DOWNLOADING' | 'DOWNLOADED' | 'ERROR'
-  currentVersion: '5.4.8',
+  currentVersion: '5.4.9',
   newVersion: null,
   releaseName: null,
   releaseNotes: null,

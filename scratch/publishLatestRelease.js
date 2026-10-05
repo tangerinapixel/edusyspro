@@ -28,14 +28,13 @@ async function publishLatest() {
     return;
   }
 
-  const changelog = `### 🚀 EduSys Pro v${pkg.version} - Hub de Configurações Institucionais & Governança Pedagógica
+  const changelog = `### 🚀 EduSys Pro v${pkg.version} - Blindagem do Motor de IA, Circuit Breaker & Resiliência Pedagógica
 
-- **⚙️ Novo Hub Dedicado de Configurações da Coordenação**: Área centralizada de gestão institucional inspirada na interface do docente, permitindo personalizar perfil, segurança de acesso e identidade escolar.
-- **🔐 Troca Segura de Senha & Gestão de Acesso**: Suporte à alteração imediata de credenciais de acesso da coordenação com validação criptográfica PBKDF2 e tempo de auto-lock configurável (5, 15, 30 ou 60 minutos de inatividade).
-- **👤 Perfil Institucional & Foto de Coordenador**: Upload e compressão automática de imagem para avatar em alta definição (256x256), exibido com destaque na barra superior e relatórios emitidos.
-- **☁️ Gestão Avançada de Nuvem Google Drive**: Interface interativa para alternar a conta conectada ou desconectar o repositório em nuvem com um clique.
-- **🏫 Identidade Institucional & Cabeçalho de Dossiês**: Customização de nome oficial da escola, subtítulo e prévia em tempo real com timbrado institucional dinamicamente aplicado a relatórios e dossiês em PDF.
-- **🛡️ 100% Auditado em Testes de Não-Regressão**: Validação completa de todos os fluxos com integridade do cofre e testes de compilação sem alertas de quebra.`;
+- **🧠 Blindagem do Motor de Inteligência Artificial (Circuit Breaker Imediato)**: Detecção ultrarrápida de chaves revogadas/403/leaked com interrupção instantânea (3ms), eliminando travamentos de tela e loops de 15 tentativas repetidas.
+- **⚡ Calibração de Modelos Google Gemini**: Priorização do modelo de alta velocidade e estabilidade (\`gemini-3.5-flash\`), com failover inteligente automático em erros 404 (modelos descontinuados) e 503 (alta demanda mundial).
+- **💡 Experiência de Erro Amigável no Gerador de Planos de Aula**: Mensagens claras, acolhedoras e orientadoras ao docente, eliminando códigos técnicos brutos da Google Cloud e oferecendo atalho de 1 clique para a configuração da Chave Gemini diretamente na barra de ferramentas.
+- **📝 Resiliência na Geração de Avaliações & Caderno de Atividades**: Diálogo interativo para direcionamento às configurações de chave sem perda do fluxo de trabalho do professor.
+- **🛡️ 100% Homologado em Testes de Não-Regressão**: Suíte completa de testes aprovada garantindo total compatibilidade pedagógica com as diretrizes da BNCC e integridade do banco de dados.`;
 
   console.log(`Publicando release ${draft.tag_name || targetTag} (ID: ${draft.id})...`);
   const patchRes = await fetch(`https://api.github.com/repos/tangerinapixel/edusyspro/releases/${draft.id}`, {

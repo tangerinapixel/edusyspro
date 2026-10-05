@@ -37,3 +37,5 @@ license_store.json
 .env.local
 # Cofre da Coordenação (PINs, auth_meta, credenciais locais)
 coordinator_vault/
+school_data.json
+school_data.json.tmp

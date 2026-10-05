@@ -7,13 +7,14 @@ import { searchHabilidades, getHabilidadeByCodigo, sanitizeBnccCode } from '../u
 
 import CadernoAtividadesModal from '../components/modals/CadernoAtividadesModal';
 import CustomDatePicker from '../components/shared/CustomDatePicker';
+import { formatAiUserErrorMessage, isAiAuthError } from '../utils/aiErrorHandler';
 
 const DAY_NAMES = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
 const DAY_KEYS = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
 
 export default function AiGenerator() {
   const navigate = useNavigate();
-  const { showAlert, turmas, activeTurmaId, setActiveTurmaId, units, activeUnitId, authName } = useApp();
+  const { showAlert, turmas, activeTurmaId, setActiveTurmaId, units, activeUnitId, authName, setIsAIModalOpen } = useApp();
 
   // Estados Locais
   const [selectedTurmaId, setSelectedTurmaId] = useState(activeTurmaId || (turmas[0]?.id || 1));
@@ -38,6 +39,7 @@ export default function AiGenerator() {
   const [generatedPlan, setGeneratedPlan] = useState(null);
   const [isExportingPDF, setIsExportingPDF] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [authErrorDetected, setAuthErrorDetected] = useState(false);
 
   // Estados da Diretriz Curricular BNCC
   const [selectedBnccCodes, setSelectedBnccCodes] = useState([]);
@@ -130,6 +132,7 @@ export default function AiGenerator() {
 
     setIsGenerating(true);
     setGeneratedPlan(null);
+    setAuthErrorDetected(false);
 
     try {
       let scheduleToUse = customSchedule;
@@ -218,21 +221,20 @@ export default function AiGenerator() {
         setGeneratedPlan(savedRecord);
         showAlert("Sucesso!", "Plano de aula gerado com sucesso e arquivado no Acervo Didático.", "success");
       } else {
-        const formatAIError = (rawError) => {
-          if (!rawError) return "Ocorreu um erro ao gerar o plano de aula.";
-          const errStr = String(rawError);
-          if (errStr.includes("429") || errStr.includes("quota") || errStr.includes("Too Many Requests")) {
-            return "O limite temporário de requisições gratuitas do Google Gemini foi atingido. Aguarde cerca de 30 segundos para tentar novamente ou cadastre sua chave de API nas Configurações.";
-          }
-          if (errStr.includes("fetch failed") || errStr.includes("ENOTFOUND")) {
-            return "Sem conexão com a internet. Verifique sua rede e tente novamente.";
-          }
-          return errStr.length > 150 ? errStr.substring(0, 150) + "..." : errStr;
-        };
-        showAlert("Atenção na Geração", formatAIError(res.error), "warning");
+        const isAuth = isAiAuthError(res?.error);
+        if (isAuth) {
+          setAuthErrorDetected(true);
+        }
+        const errorMsg = formatAiUserErrorMessage(res?.error, "gerar o plano de aula");
+        showAlert("Atenção na Geração", errorMsg, isAuth ? "error" : "warning");
       }
     } catch (error) {
-      showAlert("Falha Crítica", "Ocorreu um erro ao comunicar com a I.A.", "error");
+      const isAuth = isAiAuthError(error);
+      if (isAuth) {
+        setAuthErrorDetected(true);
+      }
+      const errorMsg = formatAiUserErrorMessage(error, "gerar o plano de aula");
+      showAlert("Falha na Geração", errorMsg, "error");
     } finally {
       setIsGenerating(false);
     }
@@ -314,6 +316,17 @@ export default function AiGenerator() {
         <div className="flex items-center gap-3">
           <button
             type="button"
+            onClick={() => setIsAIModalOpen(true)}
+            className="px-3 py-1.5 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 text-slate-300 hover:text-white border border-slate-700/60 text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-xs active:scale-[0.98]"
+            title="Configurar Chave de API do Gemini e Prompt Mestre"
+          >
+            <svg className="w-3.5 h-3.5 text-indigo-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+            </svg>
+            <span className="hidden sm:inline">Chave IA</span>
+          </button>
+          <button
+            type="button"
             onClick={() => navigate('/acervo-pedagogico')}
             className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-indigo-500/20 via-purple-500/20 to-indigo-500/20 hover:from-indigo-500/30 hover:to-purple-500/30 text-indigo-200 hover:text-white border border-indigo-400/40 text-xs font-bold transition-all flex items-center gap-2 cursor-pointer shadow-xs active:scale-[0.98] group"
             title="Acessar o Acervo Didático com planos de aula e avaliações anteriores"
@@ -345,6 +358,34 @@ export default function AiGenerator() {
         {/* Painel de Inputs (Esquerda) */}
         <div className="w-full lg:w-[380px] p-4 border-r border-slate-100 overflow-y-auto bg-slate-50/30 flex-shrink-0 space-y-4">
             <form onSubmit={handleGeneratePlan} className="space-y-4">
+              {authErrorDetected && (
+                <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-900 flex flex-col gap-2.5 animate-in fade-in slide-in-from-top-2 duration-300">
+                  <div className="flex items-start gap-2.5">
+                    <div className="w-6 h-6 rounded-lg bg-amber-500/20 text-amber-700 flex items-center justify-center shrink-0 mt-0.5">
+                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                      </svg>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-xs font-black text-amber-800 leading-tight">Chave Gemini Requer Atenção</p>
+                      <p className="text-[11px] text-amber-700 mt-1 leading-relaxed">
+                        Sua chave de API do Gemini expirou ou foi revogada. Atualize-a para gerar novos planos pedagógicos.
+                      </p>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setIsAIModalOpen(true)}
+                    className="w-full py-2 px-3 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold tracking-wide transition-all flex items-center justify-center gap-2 shadow-xs cursor-pointer active:scale-[0.98]"
+                  >
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+                    </svg>
+                    <span>Configurar Chave Gemini Agora</span>
+                  </button>
+                </div>
+              )}
+
               {/* Seleção de Turma Customizada */}
               <div className="relative">
                 <label className="block text-[10px] font-black text-slate-400 mb-1.5 uppercase tracking-wider">

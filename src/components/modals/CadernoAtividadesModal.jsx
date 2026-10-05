@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import AnimatedModal from '../shared/AnimatedModal';
 import { Icons } from '../../assets/icons';
 import AcervoExamScopeSelector from '../acervo/AcervoExamScopeSelector';
+import { formatAiUserErrorMessage, isAiAuthError } from '../../utils/aiErrorHandler';
+import { useApp } from '../../contexts/AppContext';
 
 export default function CadernoAtividadesModal({
   isOpen,
@@ -14,6 +16,7 @@ export default function CadernoAtividadesModal({
   initialLessonIndex = null,
   initialFormat = null
 }) {
+  const { setIsAIModalOpen } = useApp();
   const [format, setFormat] = useState(initialFormat || 'caderno_padrao'); // 'caderno_padrao' | 'avaliacao_formal' | 'estudo_dirigido'
   const [printMode, setPrintMode] = useState('colorido'); // 'colorido' | 'economico_xerox'
   const [includeSelfAssessment, setIncludeSelfAssessment] = useState(false);
@@ -236,22 +239,29 @@ export default function CadernoAtividadesModal({
         }
         onClose();
       } else if (res && !res.cancelled && res.error) {
-        alert('Não foi possível gerar o PDF: ' + res.error);
+        const userMessage = formatAiUserErrorMessage(res.error, 'gerar o caderno/avaliação');
+        if (isAiAuthError(res.error)) {
+          if (window.confirm(userMessage + '\n\nDeseja abrir as Configurações de IA agora para cadastrar ou validar sua chave?')) {
+            if (setIsAIModalOpen) setIsAIModalOpen(true);
+            onClose();
+          }
+        } else {
+          alert('Atenção na Geração da Avaliação:\n\n' + userMessage);
+        }
       }
     } catch (err) {
       console.error('Erro ao exportar caderno personalizado:', err);
       const rawError = err?.message || String(err || '');
-      let userMessage = rawError;
+      const userMessage = formatAiUserErrorMessage(rawError, 'gerar o caderno/avaliação');
 
-      if (rawError.includes("503") || rawError.includes("high demand") || rawError.includes("temporário de alta demanda") || rawError.includes("Service Unavailable")) {
-        userMessage = "Os servidores do Google Gemini estão com alta demanda temporária (Erro 503). Aguarde cerca de 10 a 20 segundos e tente gerar novamente.";
-      } else if (rawError.includes("429") || rawError.includes("quota") || rawError.includes("RESOURCE_EXHAUSTED")) {
-        userMessage = "O limite temporário de requisições gratuitas foi atingido. Aguarde cerca de 30 segundos para tentar novamente ou cadastre sua chave de API nas Configurações.";
-      } else if (rawError.includes("fetch failed") || rawError.includes("ENOTFOUND")) {
-        userMessage = "Sem conexão com a internet. Verifique sua conexão de rede e tente novamente.";
+      if (isAiAuthError(rawError)) {
+        if (window.confirm(userMessage + '\n\nDeseja abrir as Configurações de IA agora para cadastrar ou validar sua chave?')) {
+          if (setIsAIModalOpen) setIsAIModalOpen(true);
+          onClose();
+        }
+      } else {
+        alert('Atenção na Geração da Avaliação:\n\n' + userMessage);
       }
-
-      alert('Atenção na Geração da Avaliação:\n\n' + userMessage);
     } finally {
       setIsExporting(false);
       setLoadingStatusText('');

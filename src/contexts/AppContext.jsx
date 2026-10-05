@@ -201,7 +201,7 @@ export const AppProvider = ({ children }) => {
 
     // 4. Ciclo de mensagens premium
     setTimeout(() => setLoadingMessage("Preparando ambiente Elite..."), 800);
-    setTimeout(() => setLoadingMessage("EduSys Pro v5.4.8"), 1500);
+    setTimeout(() => setLoadingMessage("EduSys Pro v5.4.9"), 1500);
 
     // 5. CRÍTICO: Libera a tela de carregamento após 2.2s
     setTimeout(() => setIsAppLoading(false), 2200);

@@ -62,7 +62,7 @@ export function UpdateChangelogModal() {
               </div>
               <div>
                 <h3 className="text-lg font-black text-white tracking-tight flex items-center gap-2">
-                  {releaseName || `EduSys Pro v${newVersion || '5.5.5'}`}
+                  {releaseName || `EduSys Pro v${newVersion || '5.5.6'}`}
                   <span className="text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">
                     Atualização
                   </span>
